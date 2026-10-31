@@ -1,0 +1,8 @@
+services:
+  mongo:
+    ports:
+      - "127.0.0.1:${MONGO_PORT:-27017}:27017"
+
+  sample-db:
+    ports:
+      - "127.0.0.1:${SAMPLE_DB_PORT:-5432}:5432"

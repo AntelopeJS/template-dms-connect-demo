@@ -31,9 +31,9 @@ The PostgreSQL sample always starts, because the other two are converted from it
 
 The `dms` container mounts this repository. Code that the Builder or the assistant writes lands in your clone, and you can commit it. On Linux, the container writes as user 1000.
 
-The stack uses placeholder secrets such as `jwtSecret: "dev"`, and its ports listen on `127.0.0.1`. The sample databases publish no port. Keep the stack on your own machine.
+The stack uses placeholder secrets such as `jwtSecret: "dev"`, and its ports listen on `127.0.0.1`. The sample databases publish no port, except in [the host setup](#run-the-dms-without-docker), where `compose.host.yaml` publishes the MongoDB and PostgreSQL ports on `127.0.0.1` only. Keep the stack on your own machine.
 
-## Start the stack
+## Run with Docker
 
 You need Docker with Compose v2 and git.
 
@@ -48,6 +48,50 @@ The first start downloads the images and the npm packages. Later starts reuse th
 ```
 dms-1  |   ➜  Local:     http://localhost:3001/
 ```
+
+## Run the DMS without Docker
+
+The sample database still runs in Docker. Only the DMS runs on your machine. You need git, Docker with Compose v2, Node.js 24, and pnpm 10.2.0.
+
+- Node.js 24 is the version in `.nvmrc`.
+- pnpm 10.2.0 is the version that `packageManager` in `package.json` pins. Node.js 24 includes corepack, and `corepack enable` makes the `pnpm` command use that version.
+
+Clone the project and install it:
+
+```bash
+git clone https://github.com/AntelopeJS/template-dms-connect-demo.git
+cd template-dms-connect-demo
+corepack enable
+pnpm install
+```
+
+Start the MongoDB of the DMS and the PostgreSQL sample. `compose.host.yaml` publishes their ports on `127.0.0.1`, which the default stack does not:
+
+```bash
+docker compose -f compose.yaml -f compose.host.yaml up -d --wait mongo sample-db
+```
+
+If port 27017 or 5432 is taken on your machine, set `MONGO_PORT` or `SAMPLE_DB_PORT` to a free port in that command. Then start the backend with `MONGODB_URL=mongodb://localhost:<MONGO_PORT> pnpm dev`, and use the same port in the connection string below.
+
+Run the backend and the dashboard in two terminals. In the first terminal, start the backend:
+
+```bash
+pnpm dev
+```
+
+Wait until the log prints `Constructed modules`. In the second terminal, start the dashboard:
+
+```bash
+pnpm frontend:dev
+```
+
+Open [http://localhost:3001](http://localhost:3001) when the log prints `Local: http://localhost:3001/`, then follow [Connect a sample database](#connect-a-sample-database) with one change. The DMS reaches the sample through your machine, so the host in the connection string is `localhost` instead of `sample-db`:
+
+```
+postgres://dms_reader:dms_reader@localhost:5432/chinook
+```
+
+Press `Ctrl` `C` in each terminal to stop the DMS. To stop the containers, run `docker compose -f compose.yaml -f compose.host.yaml down`.
 
 ## Connect a sample database
 
@@ -69,16 +113,23 @@ The connection changes three places in the repository:
 
 ## Let the assistant build the pages
 
-The assistant runs a coding agent inside the `dms` container: Claude Code or Codex. You don't need an API key. Use the subscription you already have:
+The assistant in the dashboard runs a coding agent in this project's folder, Claude Code or Codex, on your own subscription. Open the chat with the sparkle icon in the header, or press `Ctrl` `Shift` `K`. Its settings are under **Modules** > **Assistant**.
 
-- **Claude Code with your Claude subscription.** On your machine, run `claude setup-token` and put the token in a `.env` file next to `compose.yaml` before `docker compose up`:
+**Without Docker.** The assistant runs as you, on your machine, so it uses the logins you already have. You set no token and no API key.
+
+- **Claude Code.** If you are signed in to Claude Code on this machine, the assistant uses that login. If you are not, run `claude` once and sign in. The assistant runs the copy of Claude Code that `@antelopejs/dms-ai` installs, so it needs no `claude` on your `PATH`.
+- **Codex.** This project has `@openai/codex` 0.154.0 as a dependency, so you install nothing more. The assistant does not read a `codex login` from your terminal. Open **Assistant** > **Settings** and press **Sign in with ChatGPT** once. The sign-in is stored in `~/.config/dms-ai` and serves every DMS project on your machine.
+
+**With Docker.** The assistant runs inside the container, which has none of your logins. Give the container one of these before `docker compose up`:
+
+- **Claude Code with your Claude subscription.** On your machine, run `claude setup-token` and put the token in a `.env` file next to `compose.yaml`:
 
   ```bash
   CLAUDE_CODE_OAUTH_TOKEN=sk-ant-oat01-...
   ```
 
-- **Codex with your ChatGPT plan.** Open **Assistant** > **Settings** in the dashboard and press **Sign in with ChatGPT**.
-- **An Anthropic API key**, if you prefer one: put `ANTHROPIC_API_KEY=sk-ant-...` in the same `.env` file.
+- **Codex with your ChatGPT plan.** Open **Assistant** > **Settings** and press **Sign in with ChatGPT**. The page that OpenAI sends you back to does not load, because the assistant is in the container. Copy its address from the address bar and press **Paste the return address**.
+- **An Anthropic API key**, if you prefer one. Put `ANTHROPIC_API_KEY=sk-ant-...` in the same `.env` file.
 
 The assistant starts in Safe mode, where it changes the project only through the Builder, and in Plan only, where it proposes a plan and waits for you to approve it. On the sample, it maps the tables, writes the table pages, and adds statistics pages.
 
@@ -96,11 +147,14 @@ git checkout -- antelope.config.ts
 rm -rf modules .env
 ```
 
+If you ran the DMS on your machine, stop it and run `docker compose -f compose.yaml -f compose.host.yaml down -v` instead of `docker compose down -v`.
+
 ## Files
 
 | Path | Content |
 | --- | --- |
 | `compose.yaml` | The services, the `mongodb` and `rethinkdb` profiles, and the volumes. |
+| `compose.host.yaml` | Publishes the ports of `mongo` and `sample-db` on `127.0.0.1`, for running the DMS on your machine. |
 | `Dockerfile` | The `dms` image: Node 24 and pnpm 10.2.0. |
 | `docker/start.sh` | Installs the dependencies, starts the backend, waits until its API answers, then starts the dashboard. |
 | `antelope.config.ts` | The DMS modules and their configuration. |
