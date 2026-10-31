@@ -1,0 +1,10 @@
+{
+  "name": "sample-nosql-seed",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "mongodb": "^6.10.0",
+    "pg": "^8.13.0",
+    "rethinkdb": "^2.4.2"
+  }
+}

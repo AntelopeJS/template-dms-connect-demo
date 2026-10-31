@@ -1,0 +1,117 @@
+name: dms-connect-demo
+
+services:
+  dms:
+    build: .
+    init: true
+    ports:
+      - "127.0.0.1:3001:3001"
+    environment:
+      HOST: 0.0.0.0
+      npm_config_store_dir: /home/node/.pnpm-store
+      MONGODB_URL: mongodb://mongo:27017
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:-}
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+      - home:/home/node
+    depends_on:
+      mongo:
+        condition: service_healthy
+      sample-db:
+        condition: service_healthy
+      seed-mongodb:
+        condition: service_completed_successfully
+        required: false
+      seed-rethinkdb:
+        condition: service_completed_successfully
+        required: false
+
+  mongo:
+    image: mongo:8
+    attach: false
+    volumes:
+      - mongo:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 2s
+      retries: 30
+
+  sample-db:
+    build: sample-db
+    attach: false
+    environment:
+      POSTGRES_DB: chinook
+      POSTGRES_USER: chinook
+      POSTGRES_PASSWORD: chinook
+    volumes:
+      - sample-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "chinook", "-d", "chinook"]
+      interval: 2s
+      retries: 30
+
+  sample-mongodb:
+    profiles: [mongodb]
+    build: sample-mongo
+    attach: false
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - sample-mongodb:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "-u", "root", "-p", "root", "--authenticationDatabase", "admin", "--eval", "db.adminCommand('ping').ok"]
+      interval: 2s
+      retries: 30
+
+  seed-mongodb:
+    profiles: [mongodb]
+    build: sample-nosql
+    attach: false
+    restart: "no"
+    command: ["mongodb"]
+    environment:
+      PG_URL: postgres://chinook:chinook@sample-db:5432/chinook
+      TARGET_URL: mongodb://root:root@sample-mongodb:27017/?authSource=admin
+    depends_on:
+      sample-db:
+        condition: service_healthy
+      sample-mongodb:
+        condition: service_healthy
+
+  sample-rethinkdb:
+    profiles: [rethinkdb]
+    image: rethinkdb:2.4
+    attach: false
+    command: rethinkdb --bind all
+    volumes:
+      - sample-rethinkdb:/data
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/28015'"]
+      interval: 2s
+      retries: 30
+
+  seed-rethinkdb:
+    profiles: [rethinkdb]
+    build: sample-nosql
+    attach: false
+    restart: "no"
+    command: ["rethinkdb"]
+    environment:
+      PG_URL: postgres://chinook:chinook@sample-db:5432/chinook
+      TARGET_HOST: sample-rethinkdb
+    depends_on:
+      sample-db:
+        condition: service_healthy
+      sample-rethinkdb:
+        condition: service_healthy
+
+volumes:
+  node_modules:
+  home:
+  mongo:
+  sample-db:
+  sample-mongodb:
+  sample-rethinkdb:
