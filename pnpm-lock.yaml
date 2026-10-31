@@ -28,11 +28,11 @@ importers:
         version: 0.10.0(c87f0a9b85daf66281dad7f6d5ec47b2)
     devDependencies:
       '@antelopejs/core':
-        specifier: 1.18.1
-        version: 1.18.1
+        specifier: 1.18.2
+        version: 1.18.2
       '@antelopejs/dms-frontend':
         specifier: 0.9.1
-        version: 0.9.1(@antelopejs/core@1.18.1)
+        version: 0.9.1(@antelopejs/core@1.18.2)
       '@types/node':
         specifier: ^24.0.0
         version: 24.19.2
@@ -45,8 +45,8 @@ importers:
 
 packages:
 
-  '@antelopejs/core@1.18.1':
-    resolution: {integrity: sha512-cqk26yntWSHtj1cNcE3GhfQIoIVyLkVOoJkA5vhWbG3hMUZgEhJmgI3Sd1npqTBObfjw1kRj3jpWSS10T5Dwmw==}
+  '@antelopejs/core@1.18.2':
+    resolution: {integrity: sha512-9ceeM21jBoNGvHiWi30hTdhy8al+0WKxAF5/nQqItOH3ufH29MRJhB+o6F5DQxIdGyOqQffIFqSyn+EjXuah7Q==}
     engines: {node: '>=20.19'}
     hasBin: true
 
@@ -772,7 +772,7 @@ packages:
 
 snapshots:
 
-  '@antelopejs/core@1.18.1':
+  '@antelopejs/core@1.18.2':
     dependencies:
       '@antelopejs/interface-core': 0.3.0
       '@clack/prompts': 1.8.1
@@ -787,9 +787,9 @@ snapshots:
       semver: 7.8.5
       typescript: 5.9.3
 
-  '@antelopejs/dms-frontend@0.9.1(@antelopejs/core@1.18.1)':
+  '@antelopejs/dms-frontend@0.9.1(@antelopejs/core@1.18.2)':
     dependencies:
-      '@antelopejs/core': 1.18.1
+      '@antelopejs/core': 1.18.2
       '@intlify/message-compiler': 11.4.16
       chokidar: 4.0.3
       commander: 13.1.0
