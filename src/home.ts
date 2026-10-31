@@ -1,0 +1,24 @@
+import { Banner } from "@antelopejs/interface-dms/base";
+import {
+  PageController,
+  pagesCategory,
+  RegisterPage,
+} from "@antelopejs/interface-dms/page";
+
+/** The landing page: how to connect the sample database bundled with the template. */
+@RegisterPage()
+export class PageHome extends PageController("home", {
+  displayName: "Home",
+  icon: "i-ph-house",
+  category: pagesCategory,
+  order: 0,
+  description: "Connect a database to generate its back office",
+}) {
+  static connect = Banner({
+    tone: "primary",
+    icon: "i-ph-plugs-connected",
+    title: "Connect the sample database",
+    description:
+      "Open the Builder (hammer icon, top right), choose Database, then Connect a database. Paste postgres://dms_reader:dms_reader@sample-db:5432/chinook into the Connection field, press Fill in, then Connect.",
+  });
+}
