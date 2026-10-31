@@ -35,7 +35,7 @@ The stack uses placeholder secrets such as `jwtSecret: "dev"`, and its ports lis
 
 ## Start the stack
 
-You need Docker with Compose v2 and git. We tested on Linux with Docker 29 and Compose 5.6.
+You need Docker with Compose v2 and git.
 
 ```bash
 git clone https://github.com/AntelopeJS/template-dms-connect-demo.git
@@ -43,7 +43,7 @@ cd template-dms-connect-demo
 docker compose up
 ```
 
-The first start downloads the images and the npm packages. On our machine it took about a minute from `docker compose up` to a working dashboard. Later starts reuse the downloads. The dashboard is ready when the log prints:
+The first start downloads the images and the npm packages. Later starts reuse the downloads. The dashboard is ready when the log prints:
 
 ```
 dms-1  |   ➜  Local:     http://localhost:3001/
@@ -56,7 +56,7 @@ dms-1  |   ➜  Local:     http://localhost:3001/
 3. Choose the **Database** tab. The **Connect a database** form opens.
 4. Enter `chinook` as the name and pick the database type that matches your sample.
 5. Paste the connection string from the table above into the **Connection** field, then press **Fill in**.
-6. Press **Connect**. Four steps complete in about 15 seconds, and the Builder lists what it found.
+6. Press **Connect**. The Builder runs four steps, then lists what it found.
 7. Choose who maps the tables:
    - **Review it myself** opens the mapping in the Builder. You answer the questions and generate the pages.
    - **Let the assistant finish** hands the job to the assistant, which also adds the statistics pages. It needs a coding agent. See the next section.
@@ -69,17 +69,18 @@ The connection changes three places in the repository:
 
 ## Let the assistant build the pages
 
-The assistant runs Claude Code inside the `dms` container, with your credentials. Put one of these in a `.env` file next to `compose.yaml` before `docker compose up`:
+The assistant runs a coding agent inside the `dms` container: Claude Code or Codex. You don't need an API key. Use the subscription you already have:
 
-```bash
-ANTHROPIC_API_KEY=sk-ant-...
-# or a token from `claude setup-token`
-CLAUDE_CODE_OAUTH_TOKEN=sk-ant-oat01-...
-```
+- **Claude Code with your Claude subscription.** On your machine, run `claude setup-token` and put the token in a `.env` file next to `compose.yaml` before `docker compose up`:
 
-The assistant starts in Safe mode, where it changes the project only through the Builder, and in Plan only, where it proposes a plan and waits for you to approve it. In our run it took about 11 minutes to map the 11 tables and write 9 table pages and 2 statistics pages, **Music Overview** and **Sales Overview**.
+  ```bash
+  CLAUDE_CODE_OAUTH_TOKEN=sk-ant-oat01-...
+  ```
 
-dms-ai can also run Codex on a ChatGPT plan: sign in from **Assistant** > **Settings**.
+- **Codex with your ChatGPT plan.** Open **Assistant** > **Settings** in the dashboard and press **Sign in with ChatGPT**.
+- **An Anthropic API key**, if you prefer one: put `ANTHROPIC_API_KEY=sk-ant-...` in the same `.env` file.
+
+The assistant starts in Safe mode, where it changes the project only through the Builder, and in Plan only, where it proposes a plan and waits for you to approve it. On the sample, it maps the tables, writes the table pages, and adds statistics pages.
 
 ## Generated pages start read-only
 
