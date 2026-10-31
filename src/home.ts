@@ -5,7 +5,6 @@ import {
   RegisterPage,
 } from "@antelopejs/interface-dms/page";
 
-/** The landing page: how to connect the sample database bundled with the template. */
 @RegisterPage()
 export class PageHome extends PageController("home", {
   displayName: "Home",
