@@ -1,12 +1,12 @@
 import { defineConfig } from "@antelopejs/interface-core/config";
 
 export default defineConfig({
-  name: "template-dms-light",
+  name: "template-dms-connect-demo",
   envOverrides: {
     MONGODB_URL: "modules.mongodb.config.url",
   },
   modules: {
-    "template-dms-light": {
+    "template-dms-connect-demo": {
       source: {
         type: "local",
         path: ".",
@@ -27,7 +27,7 @@ export default defineConfig({
         homepage: "/home",
         meta: {
           title: "AntelopeJS DMS",
-          description: "AntelopeJS DMS light template",
+          description: "AntelopeJS DMS connect demo",
         },
         auth: {
           jwtSecret: "dev",
@@ -66,7 +66,7 @@ export default defineConfig({
       },
       config: {
         url: "mongodb://localhost:27017",
-        database: "dms_light",
+        database: "dms_connect_demo",
       },
     },
     "auth-jwt": {

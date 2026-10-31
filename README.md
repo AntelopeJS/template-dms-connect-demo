@@ -1,6 +1,8 @@
-# AntelopeJS DMS light template
+# AntelopeJS DMS connect demo
 
-Connect a database to [AntelopeJS DMS](https://github.com/AntelopeJS/dms) and get its back office as TypeScript in this repository. One command starts the DMS and a PostgreSQL database already filled with sample data, so you can try the flow without a database of your own.
+This repository is a demo for trying the Connect flow. It starts [AntelopeJS DMS](https://github.com/AntelopeJS/dms) together with a sample PostgreSQL database, so you can connect a database and see the generated back office without a database of your own.
+
+To start your own project, use [`AntelopeJS/template-dms`](https://github.com/AntelopeJS/template-dms) instead. It has the same DMS, Builder, and assistant, with no sample data.
 
 ## What the stack runs
 
@@ -21,8 +23,8 @@ The stack uses placeholder secrets such as `jwtSecret: "dev"`, and its ports lis
 You need Docker with Compose v2 and git. We tested on Linux with Docker 29 and Compose 5.6.
 
 ```bash
-git clone https://github.com/AntelopeJS/template-dms-light.git
-cd template-dms-light
+git clone https://github.com/AntelopeJS/template-dms-connect-demo.git
+cd template-dms-connect-demo
 docker compose up
 ```
 
@@ -67,7 +69,7 @@ CLAUDE_CODE_OAUTH_TOKEN=sk-ant-oat01-...
 
 The assistant starts in Safe mode, where it changes the project only through the Builder, and in Plan only, where it proposes a plan and waits for you to approve it. In our run it took about 11 minutes to map the 11 tables and write 9 table pages and 2 statistics pages, **Music Overview** and **Sales Overview**.
 
-dms-ai can also run Codex on a ChatGPT plan: sign in from **Assistant** > **Settings**. We tested this template with Claude Code only.
+dms-ai can also run Codex on a ChatGPT plan: sign in from **Assistant** > **Settings**.
 
 ## Generated pages start read-only
 

@@ -1,4 +1,4 @@
-name: dms-light
+name: dms-connect-demo
 
 services:
   dms:
