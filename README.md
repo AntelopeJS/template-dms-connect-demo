@@ -12,11 +12,13 @@ Connect a database to [AntelopeJS DMS](https://github.com/AntelopeJS/dms) and ge
 | `mongo` | `mongo:8` | The DMS's own data: accounts, roles, settings. |
 | `sample-db` | `postgres:17-alpine` | The database you connect: [Chinook](https://github.com/lerocha/chinook-database), the sample data of a music store. It has 11 tables, among them customers, employees, invoices from 2021 to 2025, and 3,503 tracks. |
 
-The `dms` container mounts this repository. Code that the Builder or the assistant writes lands in your clone, and you can commit it.
+The `dms` container mounts this repository. Code that the Builder or the assistant writes lands in your clone, and you can commit it. On Linux, the container writes as user 1000.
+
+The stack uses placeholder secrets such as `jwtSecret: "dev"`, and its ports listen on `127.0.0.1`. Keep them on your own machine.
 
 ## Start the stack
 
-You need Docker with Compose v2 and git.
+You need Docker with Compose v2 and git. We tested on Linux with Docker 29 and Compose 5.6.
 
 ```bash
 git clone https://github.com/AntelopeJS/template-dms-light.git
@@ -67,17 +69,9 @@ The assistant starts in Safe mode, where it changes the project only through the
 
 dms-ai can also run Codex on a ChatGPT plan: sign in from **Assistant** > **Settings**. We tested this template with Claude Code only.
 
-## Limits
+## Generated pages start read-only
 
-- The Builder connects PostgreSQL, MongoDB, and RethinkDB. This template's sample database is PostgreSQL. MySQL is not supported.
-- Generated pages are read-only by default. A mapped table gets list, detail, and export routes, and no create, edit, or delete route, until you switch on **Rows can be edited** for it. The table pages still show **New entry**, **Edit**, and **Delete**, and those actions fail with "Not Found" because the routes do not exist. The connection itself can write whatever the database account can write. The sample connects as `dms_reader`, a role with `SELECT` only. Connect your own database with the same kind of account.
-- Pages on a connected database do not refresh when its rows change. Reload the page to see new rows.
-- Generated dashboards need Claude Code or Codex. Without one, **Review it myself** still generates the table pages.
-- The assistant can write a statistics page that does not render. In our run, **Sales Overview** answered "Error 500". A plain "Fix it" message did not help, and two follow-up messages that named the cause fixed the data shape of its charts. Open each page it creates.
-- This stack is for development. The Builder and the assistant run only in development mode, and `antelope.config.ts` uses placeholder secrets such as `jwtSecret: "dev"`. The ports listen on `127.0.0.1` only. Do not expose them.
-- On Linux, the container writes to your clone as user 1000.
-- We tested on Linux with Docker 29 and Compose 5.6.
-- If the first page after a cold start shows "Failed to fetch dynamically imported module", reload the page once.
+A mapped table gets list, detail, and export routes, and no create, edit, or delete route, until you switch on **Rows can be edited** for it. The sample connects as `dms_reader`, a role with `SELECT` only.
 
 ## Start over
 
