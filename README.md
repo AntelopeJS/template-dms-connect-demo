@@ -69,7 +69,7 @@ dms-ai can also run Codex on a ChatGPT plan: sign in from **Assistant** > **Sett
 
 ## Limits
 
-- Only the PostgreSQL connection works today. The Builder's database list also offers MongoDB and RethinkDB, and MySQL is not supported. A MongoDB connection fails because the DMS already loads `@antelopejs/mongodb` for its own data, and `@antelopejs/core` 1.18.1 cannot load a second copy of it (`Cannot find module 'bson'`). A RethinkDB connection fails because `@antelopejs/dms-builder` 0.7.0 asks for `@antelopejs/rethinkdb` `>=1.6.0`, which is not published. In both cases the project does not restart until you remove the connection from `antelope.config.ts`.
+- The Builder connects PostgreSQL, MongoDB, and RethinkDB. This template's sample database is PostgreSQL. MySQL is not supported.
 - Generated pages are read-only by default. A mapped table gets list, detail, and export routes, and no create, edit, or delete route, until you switch on **Rows can be edited** for it. The table pages still show **New entry**, **Edit**, and **Delete**, and those actions fail with "Not Found" because the routes do not exist. The connection itself can write whatever the database account can write. The sample connects as `dms_reader`, a role with `SELECT` only. Connect your own database with the same kind of account.
 - Pages on a connected database do not refresh when its rows change. Reload the page to see new rows.
 - Generated dashboards need Claude Code or Codex. Without one, **Review it myself** still generates the table pages.
