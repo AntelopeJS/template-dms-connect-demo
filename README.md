@@ -106,7 +106,7 @@ rm -rf modules .env
 | `src/` | This project's own module: the Home page. |
 | `sample-db/` | The image of the PostgreSQL sample, its SQL, and a read-only role. |
 | `sample-mongo/` | The image of the MongoDB sample and the script that creates its read-only account. |
-| `sample-nosql/` | The seeding script. It reads the tables from `sample-db` and writes them into the MongoDB or RethinkDB sample. The RethinkDB script also creates its read-only account. |
+| `sample-nosql/` | The seeding script. It reads the tables from `sample-db` and writes them into the MongoDB or RethinkDB sample. The RethinkDB script writes every numeric `_id` column as a string, because the Builder declares relation columns as strings, and it creates the read-only account. |
 | `scripts/fetch-sample-db.sh` | Downloads Chinook 1.4.5, checks its SHA-256, and writes `sample-db/01-chinook.sql`. |
 
 ## Sample data licence

@@ -54,6 +54,15 @@ async function seedMongo(chinook) {
 }
 
 /**
+ * Rewrites the numeric key columns of a row as strings, the way RethinkDB stores ids.
+ * @param {object} row A row read from PostgreSQL.
+ * @returns {object} The row with every numeric column whose name ends in `_id` as a string.
+ */
+function withStringKeys(row) {
+  return Object.fromEntries(Object.entries(row).map(([column, value]) => [column, typeof value === "number" && column.endsWith("_id") ? String(value) : value]));
+}
+
+/**
  * Copies the Chinook tables into tables of the sample RethinkDB and gives the read-only account its grant.
  * @param {Map<string, { rows: object[], primaryKey: string[] }>} chinook The tables read from PostgreSQL.
  */
@@ -67,7 +76,7 @@ async function seedRethink(chinook) {
     for (const [name, { rows, primaryKey }] of chinook) {
       const options = primaryKey.length === 1 ? { primaryKey: primaryKey[0] } : {};
       await r.db(database).tableCreate(name, options).run(connection);
-      for (let i = 0; i < rows.length; i += batchSize) await r.db(database).table(name).insert(rows.slice(i, i + batchSize)).run(connection);
+      for (let i = 0; i < rows.length; i += batchSize) await r.db(database).table(name).insert(rows.slice(i, i + batchSize).map(withStringKeys)).run(connection);
       console.log(`rethinkdb: ${name} ${rows.length}`);
     }
     await r.db("rethinkdb").table("users").insert({ id: "chinook_reader", password: "chinook_reader" }).run(connection);
