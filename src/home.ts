@@ -18,6 +18,6 @@ export class PageHome extends PageController("home", {
     icon: "i-ph-plugs-connected",
     title: "Connect a sample database",
     description:
-      "Open the Builder (hammer icon, top right), choose Database, then Connect a database. Paste postgres://dms_reader:dms_reader@sample-db:5432/chinook into the Connection field, press Fill in, then Connect. The README has the strings for the MongoDB and RethinkDB samples.",
+      "Open the Builder (hammer icon, top right), choose Database, then Connect a database. Paste postgres://dms_reader:dms_reader@sample-db:5432/shop into the Connection field, press Fill in, then Connect. The README has the strings for the MongoDB and RethinkDB samples.",
   });
 }
