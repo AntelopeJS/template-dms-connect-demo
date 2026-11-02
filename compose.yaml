@@ -42,13 +42,13 @@ services:
     build: sample-db
     attach: false
     environment:
-      POSTGRES_DB: chinook
-      POSTGRES_USER: chinook
-      POSTGRES_PASSWORD: chinook
+      POSTGRES_DB: shop
+      POSTGRES_USER: shop
+      POSTGRES_PASSWORD: shop
     volumes:
       - sample-db:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "chinook", "-d", "chinook"]
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "shop", "-d", "shop"]
       interval: 2s
       retries: 30
 
@@ -73,7 +73,7 @@ services:
     restart: "no"
     command: ["mongodb"]
     environment:
-      PG_URL: postgres://chinook:chinook@sample-db:5432/chinook
+      PG_URL: postgres://shop:shop@sample-db:5432/shop
       TARGET_URL: mongodb://root:root@sample-mongodb:27017/?authSource=admin
     depends_on:
       sample-db:
@@ -100,7 +100,7 @@ services:
     restart: "no"
     command: ["rethinkdb"]
     environment:
-      PG_URL: postgres://chinook:chinook@sample-db:5432/chinook
+      PG_URL: postgres://shop:shop@sample-db:5432/shop
       TARGET_HOST: sample-rethinkdb
     depends_on:
       sample-db:
