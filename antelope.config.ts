@@ -20,7 +20,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms",
-        version: ">=0.12.0 <1.0.0",
+        version: ">=0.15.0 <1.0.0",
       },
       config: {
         apiBaseUrl: "${@api.API_PUBLIC_BASE_URL}",
@@ -41,7 +41,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms-builder",
-        version: ">=0.7.0 <1.0.0",
+        version: ">=0.9.0 <1.0.0",
       },
       config: {
         projectRoot: __dirname,
@@ -51,7 +51,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms-ai",
-        version: ">=0.7.0 <1.0.0",
+        version: ">=0.9.0 <1.0.0",
       },
       config: {
         backendUrl: "${@api.API_LOCAL_BASE_URL}",
