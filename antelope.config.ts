@@ -51,7 +51,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms-ai",
-        version: ">=0.7.0 <1.0.0",
+        version: ">=0.9.0 <1.0.0",
       },
       config: {
         backendUrl: "${@api.API_LOCAL_BASE_URL}",
