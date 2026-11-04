@@ -2,7 +2,7 @@
 
 This repository is a demo for trying the Connect flow. It starts [AntelopeJS DMS](https://github.com/AntelopeJS/dms) with a sample database that you pick: PostgreSQL, MongoDB, or RethinkDB. All three hold the same data, the orders of a coffee brand that sells beans, machines, and accessories online, so you can compare what the Builder generates from each.
 
-To start your own project, use [`AntelopeJS/template-dms`](https://github.com/AntelopeJS/template-dms) instead. It has the same DMS, Builder, and assistant, with no sample data.
+To start your own project, use [`AntelopeJS/template-dms`](https://github.com/AntelopeJS/template-dms) instead, with `npx @antelopejs/core project init my-project --template dms-starter`. It has the same DMS, Builder, and assistant, with no sample data.
 
 ## Pick a sample database
 
@@ -29,17 +29,17 @@ The PostgreSQL sample always starts, because the other two are converted from it
 | `sample-rethinkdb` | `rethinkdb:2.4` | The RethinkDB sample, with the same 12 tables. Profile `rethinkdb`. |
 | `seed-mongodb`, `seed-rethinkdb` | built from `sample-nosql/` | Read every table from `sample-db` and write it into the matching sample, then exit. They skip a sample that already holds data. |
 
-The `dms` container mounts this repository. Code that the Builder or the assistant writes lands in your clone, and you can commit it. On Linux, the container writes as user 1000.
+The `dms` container mounts this repository. Code that the Builder or the assistant writes lands in your project, and you can commit it. On Linux, the container writes as user 1000.
 
 The stack uses placeholder secrets such as `jwtSecret: "dev"`, and its ports listen on `127.0.0.1`. The sample databases publish no port, except in [the host setup](#run-the-dms-without-docker), where `compose.host.yaml` publishes the MongoDB and PostgreSQL ports on `127.0.0.1` only. Keep the stack on your own machine.
 
 ## Run with Docker
 
-You need Docker with Compose v2 and git.
+You need git, Node.js 24, and Docker with Compose v2.
 
 ```bash
-git clone https://github.com/AntelopeJS/template-dms-connect-demo.git
-cd template-dms-connect-demo
+npx @antelopejs/core project init my-demo --template dms-connect-demo
+cd my-demo
 docker compose up
 ```
 
@@ -49,6 +49,8 @@ The first start downloads the images and the npm packages. Later starts reuse th
 dms-1  |   ➜  Local:     http://localhost:3001/
 ```
 
+The `dms` log also prints the address that creates the administrator account. See [Connect a sample database](#connect-a-sample-database).
+
 ## Run the DMS without Docker
 
 The sample database still runs in Docker. Only the DMS runs on your machine. You need git, Docker with Compose v2, Node.js 24, and pnpm 10.2.0.
@@ -56,13 +58,12 @@ The sample database still runs in Docker. Only the DMS runs on your machine. You
 - Node.js 24 is the version in `.nvmrc`.
 - pnpm 10.2.0 is the version that `packageManager` in `package.json` pins. Node.js 24 includes corepack, and `corepack enable` makes the `pnpm` command use that version.
 
-Clone the project and install it:
+Create the project. The command installs its packages:
 
 ```bash
-git clone https://github.com/AntelopeJS/template-dms-connect-demo.git
-cd template-dms-connect-demo
 corepack enable
-pnpm install
+npx @antelopejs/core project init my-demo --template dms-connect-demo
+cd my-demo
 ```
 
 Start the MongoDB of the DMS and the PostgreSQL sample. `compose.host.yaml` publishes their ports on `127.0.0.1`, which the default stack does not:
@@ -95,7 +96,13 @@ Press `Ctrl` `C` in each terminal to stop the DMS. To stop the containers, run `
 
 ## Connect a sample database
 
-1. Open [http://localhost:3001](http://localhost:3001). The first visit opens the setup wizard. There are no default credentials, so create the administrator account. The password needs an uppercase letter, a digit, and one of `@$!%*?&`.
+1. Open the onboarding address that the backend prints at start. With Docker, it is in the `dms` log. Without Docker, it is in the `pnpm dev` terminal:
+
+   ```
+   [DMS] No owner exists yet. To create it, open http://localhost:3001/onboarding?token=...
+   ```
+
+   The address opens the setup wizard. There are no default credentials, so create the administrator account there. The password needs an uppercase letter, a digit, and one of `@$!%*?&`. If you set `DMS_SETUP_TOKEN`, the log shows `<DMS_SETUP_TOKEN>` in place of the token, and you use your own value.
 2. On **Home**, open the Builder with the hammer icon at the top right.
 3. Choose the **Database** tab. The **Connect a database** form opens.
 4. Enter `shop` as the name and pick the database type that matches your sample.
