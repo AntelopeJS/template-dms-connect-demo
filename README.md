@@ -1,4 +1,19 @@
+<div align="center">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AntelopeJS/dms/main/packages/dms/frontend-vue/layers/dms-layout/public/images/antelope-logo/dark.svg">
+  <img alt="AntelopeJS DMS" src="https://raw.githubusercontent.com/AntelopeJS/dms/main/packages/dms/frontend-vue/layers/dms-layout/public/images/antelope-logo/light.svg" height="72">
+</picture>
+
 # AntelopeJS DMS connect demo
+
+**Try the Connect flow on a sample PostgreSQL, MongoDB or RethinkDB database, and watch the Builder generate the back office.**
+
+[DMS](https://github.com/AntelopeJS/dms) · [Docs](https://dms.antelopejs.com/docs) · [Quick start](https://dms.antelopejs.com/docs/getting-started/quickstart) · [Discord](https://discord.gg/g4pFt6eXqu)
+
+</div>
+
+![Screen recording from the Meet AntelopeJS DMS film. A PostgreSQL connection string is pasted into the Connect a database form and Connect is pressed. Three databases appear in one list under the caption Three databases, one back office, then an Overview dashboard with data from all three appears under the caption One dashboard. Everything in one place.](https://raw.githubusercontent.com/AntelopeJS/dms/main/docs/media/hero-connect.gif)
 
 This repository is a demo for trying the Connect flow. It starts [AntelopeJS DMS](https://github.com/AntelopeJS/dms) with a sample database that you pick: PostgreSQL, MongoDB, or RethinkDB. All three hold the same data, the orders of a coffee brand that sells beans, machines, and accessories online, so you can compare what the Builder generates from each.
 
