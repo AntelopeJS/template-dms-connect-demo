@@ -35,10 +35,9 @@ The stack uses placeholder secrets such as `jwtSecret: "dev"`, and its ports lis
 
 ## Run with Docker
 
-You need git, Node.js 24, pnpm, and Docker with Compose v2. Node.js 24 includes corepack, and `corepack enable` makes the `pnpm` command available. The command that creates the project installs its packages with pnpm.
+You need git, Node.js 24, and Docker with Compose v2.
 
 ```bash
-corepack enable
 npx @antelopejs/core project init my-demo --template dms-connect-demo
 cd my-demo
 docker compose up
