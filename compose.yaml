@@ -34,7 +34,8 @@ services:
     volumes:
       - mongo:/data/db
     healthcheck:
-      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      test:
+        ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
       interval: 2s
       retries: 30
 
@@ -62,7 +63,20 @@ services:
     volumes:
       - sample-mongodb:/data/db
     healthcheck:
-      test: ["CMD", "mongosh", "--quiet", "-u", "root", "-p", "root", "--authenticationDatabase", "admin", "--eval", "db.adminCommand('ping').ok"]
+      test:
+        [
+          "CMD",
+          "mongosh",
+          "--quiet",
+          "-u",
+          "root",
+          "-p",
+          "root",
+          "--authenticationDatabase",
+          "admin",
+          "--eval",
+          "db.adminCommand('ping').ok",
+        ]
       interval: 2s
       retries: 30
 

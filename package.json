@@ -6,7 +6,22 @@
   "scripts": {
     "build": "rimraf dist && tsc",
     "dev": "ajs project run -w",
-    "frontend:dev": "ajs dms dev"
+    "frontend:dev": "ajs dms dev",
+    "suppressions": "antelopejs-suppressions",
+    "suppressions:update": "antelopejs-suppressions --update",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix && oxfmt .",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
+    "typecheck": "tsc --noEmit",
+    "knip": "knip --workspace . --dependencies",
+    "test": "pnpm run build && node --test \"dist/**/*.test.js\"",
+    "size": "antelopejs-check-size",
+    "checks": "antelopejs-checks",
+    "sync": "antelopejs-sync --profile template",
+    "sync:check": "antelopejs-sync --check --profile template",
+    "ratchet": "antelopejs-ratchet",
+    "ratchet:update": "antelopejs-ratchet --update"
   },
   "dependencies": {
     "@antelopejs/interface-api": ">=0.0.15 <1.0.0",
@@ -20,7 +35,12 @@
   "devDependencies": {
     "@antelopejs/core": "1.19.0",
     "@antelopejs/dms-frontend": "0.9.3",
+    "@antelopejs/tooling-configs": "^0.3.0",
     "@types/node": "^24.0.0",
+    "knip": "^6",
+    "oxfmt": "^0.66.0",
+    "oxlint": "1.81.0",
+    "oxlint-tsgolint": "^7.0.2006",
     "rimraf": "^6.1.3",
     "typescript": "^6.0.3"
   },

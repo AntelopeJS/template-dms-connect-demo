@@ -43,9 +43,11 @@ async function seedMongo(shop) {
   await client.connect();
   try {
     const db = client.db(database);
-    if ((await db.listCollections({ name: "customers" }).toArray()).length > 0) return console.log("mongodb: already seeded");
+    if ((await db.listCollections({ name: "customers" }).toArray()).length > 0)
+      return console.log("mongodb: already seeded");
     for (const [name, { rows }] of shop) {
-      for (let i = 0; i < rows.length; i += batchSize) await db.collection(name).insertMany(rows.slice(i, i + batchSize));
+      for (let i = 0; i < rows.length; i += batchSize)
+        await db.collection(name).insertMany(rows.slice(i, i + batchSize));
       console.log(`mongodb: ${name} ${rows.length}`);
     }
   } finally {
@@ -59,7 +61,14 @@ async function seedMongo(shop) {
  * @returns {object} The row with every numeric column whose name ends in `_id` as a string.
  */
 function withStringKeys(row) {
-  return Object.fromEntries(Object.entries(row).map(([column, value]) => [column, typeof value === "number" && column.endsWith("_id") ? String(value) : value]));
+  return Object.fromEntries(
+    Object.entries(row).map(([column, value]) => [
+      column,
+      typeof value === "number" && column.endsWith("_id")
+        ? String(value)
+        : value,
+    ]),
+  );
 }
 
 /**
@@ -68,18 +77,32 @@ function withStringKeys(row) {
  */
 async function seedRethink(shop) {
   const r = rethinkdb;
-  const connection = await r.connect({ host: process.env.TARGET_HOST, port: 28015 });
+  const connection = await r.connect({
+    host: process.env.TARGET_HOST,
+    port: 28015,
+  });
   try {
     const databases = await r.dbList().run(connection);
-    if (databases.includes(database)) return console.log("rethinkdb: already seeded");
+    if (databases.includes(database))
+      return console.log("rethinkdb: already seeded");
     await r.dbCreate(database).run(connection);
     for (const [name, { rows, primaryKey }] of shop) {
-      const options = primaryKey.length === 1 ? { primaryKey: primaryKey[0] } : {};
+      const options =
+        primaryKey.length === 1 ? { primaryKey: primaryKey[0] } : {};
       await r.db(database).tableCreate(name, options).run(connection);
-      for (let i = 0; i < rows.length; i += batchSize) await r.db(database).table(name).insert(rows.slice(i, i + batchSize).map(withStringKeys)).run(connection);
+      for (let i = 0; i < rows.length; i += batchSize)
+        await r
+          .db(database)
+          .table(name)
+          .insert(rows.slice(i, i + batchSize).map(withStringKeys))
+          .run(connection);
       console.log(`rethinkdb: ${name} ${rows.length}`);
     }
-    await r.db("rethinkdb").table("users").insert({ id: "shop_reader", password: "shop_reader" }).run(connection);
+    await r
+      .db("rethinkdb")
+      .table("users")
+      .insert({ id: "shop_reader", password: "shop_reader" })
+      .run(connection);
     await r.db(database).grant("shop_reader", { read: true }).run(connection);
   } finally {
     await connection.close();
@@ -87,7 +110,8 @@ async function seedRethink(shop) {
 }
 
 const seeders = { mongodb: seedMongo, rethinkdb: seedRethink };
-if (!(target in seeders)) throw new Error(`Unknown target "${target}". Use mongodb or rethinkdb.`);
+if (!(target in seeders))
+  throw new Error(`Unknown target "${target}". Use mongodb or rethinkdb.`);
 
 const source = new pg.Client({ connectionString: process.env.PG_URL });
 await source.connect();
