@@ -189,7 +189,7 @@ If you ran the DMS on your machine, stop it and run `docker compose -f compose.y
 
 ## Sample data
 
-The sample data is invented. `scripts/generate-sample-db.mjs` generates `sample-db/01-shop.generated.sql` and needs no network. Run `node scripts/generate-sample-db.mjs` after you change the script and commit the new SQL file. The MongoDB and RethinkDB samples hold the same rows, copied by `sample-nosql/seed.mjs` from the PostgreSQL sample.
+The sample data is invented. `scripts/generate-sample-db.mjs` generates `sample-db/01-shop.generated.sql` and needs no network. Run `node scripts/generate-sample-db.mjs` after you change it or one of the `scripts/sample-db-*.mjs` modules, and commit the new SQL file. The MongoDB and RethinkDB samples hold the same rows, copied by `sample-nosql/seed.mjs` from the PostgreSQL sample.
 
 ## Licence
 

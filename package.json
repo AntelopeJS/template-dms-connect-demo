@@ -19,9 +19,7 @@
     "size": "antelopejs-check-size",
     "checks": "antelopejs-checks",
     "sync": "antelopejs-sync --profile template",
-    "sync:check": "antelopejs-sync --check --profile template",
-    "ratchet": "antelopejs-ratchet",
-    "ratchet:update": "antelopejs-ratchet --update"
+    "sync:check": "antelopejs-sync --check --profile template"
   },
   "dependencies": {
     "@antelopejs/interface-api": ">=0.0.15 <1.0.0",
