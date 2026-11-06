@@ -3,7 +3,7 @@ import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 /**
- * Writes `sample-db/01-shop.sql`, the sample database of a coffee brand that sells beans, machines and accessories online.
+ * Writes `sample-db/01-shop.generated.sql`, the sample database of a coffee brand that sells beans, machines and accessories online.
  * The output is deterministic: a fixed seed, a fixed clock and no network access.
  * Run `node scripts/generate-sample-db.mjs` after changing this file and commit the result.
  */
@@ -14,7 +14,7 @@ const MONTHS = 18;
 const TARGET_ORDERS = 3000;
 const DAY = 86_400_000;
 const target = fileURLToPath(
-  new URL("../sample-db/01-shop.sql", import.meta.url),
+  new URL("../sample-db/01-shop.generated.sql", import.meta.url),
 );
 
 /**

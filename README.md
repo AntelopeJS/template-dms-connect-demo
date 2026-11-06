@@ -185,11 +185,11 @@ If you ran the DMS on your machine, stop it and run `docker compose -f compose.y
 | `sample-db/`                     | The image of the PostgreSQL sample, its SQL, and a read-only role.                                                                                                                                                                                                                 |
 | `sample-mongo/`                  | The image of the MongoDB sample and the script that creates its read-only account.                                                                                                                                                                                                 |
 | `sample-nosql/`                  | The seeding script. It reads the tables from `sample-db` and writes them into the MongoDB or RethinkDB sample. The RethinkDB script writes every numeric `_id` column as a string, because the Builder declares relation columns as strings, and it creates the read-only account. |
-| `scripts/generate-sample-db.mjs` | Writes `sample-db/01-shop.sql`. The data is generated with a fixed seed, so every run produces the same file.                                                                                                                                                                      |
+| `scripts/generate-sample-db.mjs` | Writes `sample-db/01-shop.generated.sql`. The data is generated with a fixed seed, so every run produces the same file.                                                                                                                                                            |
 
 ## Sample data
 
-The sample data is invented. `scripts/generate-sample-db.mjs` generates `sample-db/01-shop.sql` and needs no network. Run `node scripts/generate-sample-db.mjs` after you change the script and commit the new SQL file. The MongoDB and RethinkDB samples hold the same rows, copied by `sample-nosql/seed.mjs` from the PostgreSQL sample.
+The sample data is invented. `scripts/generate-sample-db.mjs` generates `sample-db/01-shop.generated.sql` and needs no network. Run `node scripts/generate-sample-db.mjs` after you change the script and commit the new SQL file. The MongoDB and RethinkDB samples hold the same rows, copied by `sample-nosql/seed.mjs` from the PostgreSQL sample.
 
 ## Licence
 
