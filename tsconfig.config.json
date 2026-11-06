@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "composite": true,
+    "emitDeclarationOnly": true,
+    "rootDir": ".",
+    "outDir": "node_modules/.cache/config",
+    "tsBuildInfoFile": "node_modules/.cache/config/.tsbuildinfo"
+  },
+  "include": [
+    "./antelope.config.ts",
+    "./scripts/**/*.mjs",
+    "./sample-nosql/**/*.mjs",
+    "./sample-mongo/**/*.js"
+  ]
+}
