@@ -3,7 +3,7 @@
   "rules": {
     "antelopejs/no-inherited-key-lookup": 1,
     "anti-slop/no-runtime-typeof": 2,
-    "typescript/no-unsafe-argument": 10,
+    "typescript/no-unsafe-argument": 9,
     "typescript/no-unsafe-assignment": 57,
     "typescript/no-unsafe-return": 6
   },
