@@ -20,7 +20,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms",
-        version: ">=0.15.0 <1.0.0",
+        version: ">=0.18.0 <1.0.0",
       },
       config: {
         apiBaseUrl: "${@api.API_PUBLIC_BASE_URL}",
@@ -41,7 +41,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms-builder",
-        version: ">=0.9.0 <1.0.0",
+        version: ">=0.10.0 <1.0.0",
       },
       config: {
         projectRoot: __dirname,
@@ -51,7 +51,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms-ai",
-        version: ">=0.9.0 <1.0.0",
+        version: ">=0.10.0 <1.0.0",
       },
       config: {
         backendUrl: "${@api.API_LOCAL_BASE_URL}",
@@ -62,7 +62,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/mongodb",
-        version: "^1.6.0",
+        version: "^1.6.3",
       },
       config: {
         url: "mongodb://localhost:27017",
@@ -73,7 +73,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/auth-jwt",
-        version: "^1.0.4",
+        version: "^1.1.0",
       },
       config: {
         secret: "dev",
@@ -83,7 +83,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/api",
-        version: "^1.6.0",
+        version: "^1.7.1",
       },
       config: {
         servers: [{ protocol: "http", port: 5010 }],
@@ -93,7 +93,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/file-storage-local",
-        version: "^0.1.13",
+        version: "^0.2.0",
       },
       config: {
         storagePath: ".antelope/file-storage",
@@ -105,7 +105,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/nodemailer",
-        version: ">=0.0.7 <1.0.0",
+        version: ">=0.0.8 <1.0.0",
       },
       config: {
         ethereal: true,
