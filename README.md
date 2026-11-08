@@ -1,37 +1,118 @@
-<div align="center">
+<img data-illustration src="./.github/readme/demo.svg" width="100%" alt="Three sample engines, PostgreSQL, MongoDB and RethinkDB, then the coffee shop's 12 tables appear one by one as back office pages: customers, products, orders, order items, payments, shipments, returns, reviews, coupons, categories, tickets and subscriptions. Caption: Sample data. Real back office.">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AntelopeJS/dms/main/packages/dms/frontend-vue/layers/dms-layout/public/images/antelope-logo/dark.svg">
-  <img alt="AntelopeJS DMS" src="https://raw.githubusercontent.com/AntelopeJS/dms/main/packages/dms/frontend-vue/layers/dms-layout/public/images/antelope-logo/light.svg" height="72">
-</picture>
+<div align="center">
 
 # AntelopeJS DMS connect demo
 
 **Try the Connect flow on a sample PostgreSQL, MongoDB or RethinkDB database, and watch the Builder generate the back office.**
 
-[DMS](https://github.com/AntelopeJS/dms) · [Docs](https://dms.antelopejs.com/docs) · [Quick start](https://dms.antelopejs.com/docs/getting-started/quickstart) · [Discord](https://discord.gg/g4pFt6eXqu)
+[AntelopeJS DMS](https://github.com/AntelopeJS/dms) · [Docs](https://dms.antelopejs.com/docs) · [Discord](https://discord.gg/g4pFt6eXqu)
+
+<a href="https://github.com/AntelopeJS/dms"><img data-illustration alt="Star AntelopeJS DMS" src="https://img.shields.io/github/stars/AntelopeJS/dms?label=Star%20AntelopeJS%20DMS&style=for-the-badge&labelColor=000000&color=000000&logo=github"></a> <a href="https://discord.gg/g4pFt6eXqu"><img data-illustration alt="Discord" src="https://img.shields.io/badge/Discord-18181B?logo=discord&style=for-the-badge&color=000000"></a>
 
 </div>
 
-![Screen recording from the Meet AntelopeJS DMS film. A PostgreSQL connection string is pasted into the Connect a database form and Connect is pressed. Three databases appear in one list under the caption Three databases, one back office, then an Overview dashboard with data from all three appears under the caption One dashboard. Everything in one place.](https://raw.githubusercontent.com/AntelopeJS/dms/main/docs/media/hero-connect.gif)
+This demo starts [AntelopeJS DMS](https://github.com/AntelopeJS/dms) next to a sample database: the online orders of a coffee brand, in 12 tables. The same data exists in PostgreSQL, MongoDB and RethinkDB, so you can compare what the Builder generates from each.
 
-This repository is a demo for trying the Connect flow. It starts [AntelopeJS DMS](https://github.com/AntelopeJS/dms) with a sample database that you pick: PostgreSQL, MongoDB, or RethinkDB. All three hold the same data, the orders of a coffee brand that sells beans, machines, and accessories online, so you can compare what the Builder generates from each.
+Starting your own project instead? Use [`template-dms`](https://github.com/AntelopeJS/template-dms).
 
-To start your own project, use [`AntelopeJS/template-dms`](https://github.com/AntelopeJS/template-dms) instead, with `npx @antelopejs/core project init my-project --template dms-starter`. It has the same DMS, Builder, and assistant, with no sample data.
+## Quick start
+
+<img data-illustration src="./.github/readme/quickstart.svg" width="100%" alt="A terminal types npx @antelopejs/core project init demo --template dms-connect-demo, then cd demo and docker compose up. The DMS reports ready and points to the onboarding link. Caption: Two commands. One back office.">
+
+You need git, Node.js 24 and Docker with Compose v2.
+
+```bash
+npx @antelopejs/core project init my-demo --template dms-connect-demo
+cd my-demo
+docker compose up
+```
+
+Then [create the administrator and connect a sample database](#connect-a-sample-database).
 
 ## Pick a sample database
 
-Run one command, then paste the matching connection string into the Builder.
+Run one command, then paste its connection string into the Builder.
 
-| Sample     | Command                                 | Connection string                                                              |
-| ---------- | --------------------------------------- | ------------------------------------------------------------------------------ |
-| PostgreSQL | `docker compose up`                     | `postgres://dms_reader:dms_reader@sample-db:5432/shop`                         |
-| MongoDB    | `docker compose --profile mongodb up`   | `mongodb://shop_reader:shop_reader@sample-mongodb:27017/shop?authSource=admin` |
-| RethinkDB  | `docker compose --profile rethinkdb up` | `rethinkdb://shop_reader:shop_reader@sample-rethinkdb:28015/shop`              |
+**PostgreSQL**, with `docker compose up`:
 
-The PostgreSQL sample always starts, because the other two are converted from it when they start. To get all three, pass both profiles: `docker compose --profile mongodb --profile rethinkdb up`. Each account is read-only.
+```
+postgres://dms_reader:dms_reader@sample-db:5432/shop
+```
 
-## What the stack runs
+**MongoDB**, with `docker compose --profile mongodb up`:
+
+```
+mongodb://shop_reader:shop_reader@sample-mongodb:27017/shop?authSource=admin
+```
+
+**RethinkDB**, with `docker compose --profile rethinkdb up`:
+
+```
+rethinkdb://shop_reader:shop_reader@sample-rethinkdb:28015/shop
+```
+
+The PostgreSQL sample always starts, because the other two are converted from it. To get all three, pass both profiles: `docker compose --profile mongodb --profile rethinkdb up`. Each account is read-only.
+
+## Connect a sample database
+
+1. Open the onboarding address that the backend prints at start. With Docker, it is in the `dms` log. Without Docker, it is in the `pnpm dev` terminal:
+
+   ```
+   [DMS] No owner exists yet. To create it, open http://localhost:3001/onboarding?token=...
+   ```
+
+   The address opens the setup wizard. There are no default credentials, so create the administrator account there. The password needs an uppercase letter, a digit, and one of `@$!%*?&`. If you set `DMS_SETUP_TOKEN`, the log shows `<DMS_SETUP_TOKEN>` in place of the token, and you use your own value.
+
+2. On **Home**, open the Builder with the hammer icon at the top right.
+3. Choose the **Database** tab. The **Connect a database** form opens.
+4. Enter `shop` as the name and pick the database type that matches your sample.
+5. Paste the connection string from the table above into the **Connection** field, then press **Fill in**.
+6. Press **Connect**. The Builder runs four steps, then lists what it found.
+7. Choose who maps the tables:
+   - **Review it myself** opens the mapping in the Builder. You answer the questions and generate the pages.
+   - **Let the assistant finish** hands the job to the assistant, which also adds the statistics pages. It needs a coding agent. See the next section.
+
+The connection changes three places in the repository:
+
+- `antelope.config.ts` gets the `builder-db-shop` driver module and the `builder-db-shop-tables` module.
+- `.env` gets `BUILDER_DB_SHOP_URL`. Git ignores `.env`.
+- `modules/builder-db-shop-tables/` holds the generated TypeScript: one table definition and one page per mapped table.
+
+## Generated pages start read-only
+
+A mapped table gets list, detail, and export routes, and no create, edit, or delete route, until you switch on **Rows can be edited** for it. The sample connects as `dms_reader`, a role with `SELECT` only.
+
+## Let the assistant build the pages
+
+The assistant in the dashboard runs a coding agent in this project's folder, Claude Code or Codex, on your own subscription. Open the chat with the sparkle icon in the header, or press `Ctrl` `Shift` `K`. Its settings are under **Modules** > **Assistant**.
+
+**Without Docker.** The assistant runs as you, on your machine, so it uses the logins you already have. You set no token and no API key.
+
+- **Claude Code.** If you are signed in to Claude Code on this machine, the assistant uses that login. If you are not, run `claude` once and sign in. The assistant runs the copy of Claude Code that `@antelopejs/dms-ai` installs, so it needs no `claude` on your `PATH`.
+- **Codex.** This project has `@openai/codex` 0.154.0 as a dependency, so you install nothing more. The assistant does not read a `codex login` from your terminal. Open **Assistant** > **Settings** and press **Sign in with ChatGPT** once. The sign-in is stored in `~/.config/dms-ai` and serves every DMS project on your machine.
+
+**With Docker.** The assistant runs inside the container, which has none of your logins. Give the container one of these before `docker compose up`:
+
+- **Claude Code with your Claude subscription.** On your machine, run `claude setup-token` and put the token in a `.env` file next to `compose.yaml`:
+
+  ```bash
+  CLAUDE_CODE_OAUTH_TOKEN=sk-ant-oat01-...
+  ```
+
+- **Codex with your ChatGPT plan.** Open **Assistant** > **Settings** and press **Sign in with ChatGPT**. The page that OpenAI sends you back to does not load, because the assistant is in the container. Copy its address from the address bar and press **Paste the return address**.
+- **An Anthropic API key**, if you prefer one. Put `ANTHROPIC_API_KEY=sk-ant-...` in the same `.env` file.
+
+The assistant starts in Safe mode, where it changes the project only through the Builder, and in Plan only, where it proposes a plan and waits for you to approve it. On the sample, it maps the tables, writes the table pages, and adds statistics pages.
+
+<a href="https://github.com/AntelopeJS/dms"><img data-illustration src="./.github/readme/star-strip.svg" width="100%" alt="Liked the demo? A star helps other developers find AntelopeJS DMS."></a>
+
+## More
+
+<details>
+<summary><b>What the stack runs</b></summary>
+
+### What the stack runs
 
 `docker compose up` starts three containers. Each profile adds a database and a short-lived seeding container.
 
@@ -48,25 +129,12 @@ The `dms` container mounts this repository. Code that the Builder or the assista
 
 The stack uses placeholder secrets such as `jwtSecret: "dev"`, and its ports listen on `127.0.0.1`. The sample databases publish no port, except in [the host setup](#run-the-dms-without-docker), where `compose.host.yaml` publishes the MongoDB and PostgreSQL ports on `127.0.0.1` only. Keep the stack on your own machine.
 
-## Run with Docker
+</details>
 
-You need git, Node.js 24, and Docker with Compose v2.
+<details>
+<summary><b>Run the DMS without Docker</b></summary>
 
-```bash
-npx @antelopejs/core project init my-demo --template dms-connect-demo
-cd my-demo
-docker compose up
-```
-
-The first start downloads the images and the npm packages. Later starts reuse the downloads. The dashboard is ready when the log prints:
-
-```
-dms-1  |   ➜  Local:     http://localhost:3001/
-```
-
-The `dms` log also prints the address that creates the administrator account. See [Connect a sample database](#connect-a-sample-database).
-
-## Run the DMS without Docker
+### Run the DMS without Docker
 
 The sample database still runs in Docker. Only the DMS runs on your machine. You need git, Docker with Compose v2, Node.js 24, and pnpm 10.2.0.
 
@@ -109,58 +177,12 @@ postgres://dms_reader:dms_reader@localhost:5432/shop
 
 Press `Ctrl` `C` in each terminal to stop the DMS. To stop the containers, run `docker compose -f compose.yaml -f compose.host.yaml down`.
 
-## Connect a sample database
+</details>
 
-1. Open the onboarding address that the backend prints at start. With Docker, it is in the `dms` log. Without Docker, it is in the `pnpm dev` terminal:
+<details>
+<summary><b>Start over</b></summary>
 
-   ```
-   [DMS] No owner exists yet. To create it, open http://localhost:3001/onboarding?token=...
-   ```
-
-   The address opens the setup wizard. There are no default credentials, so create the administrator account there. The password needs an uppercase letter, a digit, and one of `@$!%*?&`. If you set `DMS_SETUP_TOKEN`, the log shows `<DMS_SETUP_TOKEN>` in place of the token, and you use your own value.
-
-2. On **Home**, open the Builder with the hammer icon at the top right.
-3. Choose the **Database** tab. The **Connect a database** form opens.
-4. Enter `shop` as the name and pick the database type that matches your sample.
-5. Paste the connection string from the table above into the **Connection** field, then press **Fill in**.
-6. Press **Connect**. The Builder runs four steps, then lists what it found.
-7. Choose who maps the tables:
-   - **Review it myself** opens the mapping in the Builder. You answer the questions and generate the pages.
-   - **Let the assistant finish** hands the job to the assistant, which also adds the statistics pages. It needs a coding agent. See the next section.
-
-The connection changes three places in the repository:
-
-- `antelope.config.ts` gets the `builder-db-shop` driver module and the `builder-db-shop-tables` module.
-- `.env` gets `BUILDER_DB_SHOP_URL`. Git ignores `.env`.
-- `modules/builder-db-shop-tables/` holds the generated TypeScript: one table definition and one page per mapped table.
-
-## Let the assistant build the pages
-
-The assistant in the dashboard runs a coding agent in this project's folder, Claude Code or Codex, on your own subscription. Open the chat with the sparkle icon in the header, or press `Ctrl` `Shift` `K`. Its settings are under **Modules** > **Assistant**.
-
-**Without Docker.** The assistant runs as you, on your machine, so it uses the logins you already have. You set no token and no API key.
-
-- **Claude Code.** If you are signed in to Claude Code on this machine, the assistant uses that login. If you are not, run `claude` once and sign in. The assistant runs the copy of Claude Code that `@antelopejs/dms-ai` installs, so it needs no `claude` on your `PATH`.
-- **Codex.** This project has `@openai/codex` 0.154.0 as a dependency, so you install nothing more. The assistant does not read a `codex login` from your terminal. Open **Assistant** > **Settings** and press **Sign in with ChatGPT** once. The sign-in is stored in `~/.config/dms-ai` and serves every DMS project on your machine.
-
-**With Docker.** The assistant runs inside the container, which has none of your logins. Give the container one of these before `docker compose up`:
-
-- **Claude Code with your Claude subscription.** On your machine, run `claude setup-token` and put the token in a `.env` file next to `compose.yaml`:
-
-  ```bash
-  CLAUDE_CODE_OAUTH_TOKEN=sk-ant-oat01-...
-  ```
-
-- **Codex with your ChatGPT plan.** Open **Assistant** > **Settings** and press **Sign in with ChatGPT**. The page that OpenAI sends you back to does not load, because the assistant is in the container. Copy its address from the address bar and press **Paste the return address**.
-- **An Anthropic API key**, if you prefer one. Put `ANTHROPIC_API_KEY=sk-ant-...` in the same `.env` file.
-
-The assistant starts in Safe mode, where it changes the project only through the Builder, and in Plan only, where it proposes a plan and waits for you to approve it. On the sample, it maps the tables, writes the table pages, and adds statistics pages.
-
-## Generated pages start read-only
-
-A mapped table gets list, detail, and export routes, and no create, edit, or delete route, until you switch on **Rows can be edited** for it. The sample connects as `dms_reader`, a role with `SELECT` only.
-
-## Start over
+### Start over
 
 To return to an empty DMS and fresh sample databases, stop the stack and delete its volumes, then undo the generated changes. Pass the same `--profile` flags that you started with:
 
@@ -172,7 +194,12 @@ rm -rf modules .env
 
 If you ran the DMS on your machine, stop it and run `docker compose -f compose.yaml -f compose.host.yaml down -v` instead of `docker compose down -v`.
 
-## Files
+</details>
+
+<details>
+<summary><b>Files and sample data</b></summary>
+
+### Files
 
 | Path                             | Content                                                                                                                                                                                                                                                                            |
 | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -187,9 +214,11 @@ If you ran the DMS on your machine, stop it and run `docker compose -f compose.y
 | `sample-nosql/`                  | The seeding script. It reads the tables from `sample-db` and writes them into the MongoDB or RethinkDB sample. The RethinkDB script writes every numeric `_id` column as a string, because the Builder declares relation columns as strings, and it creates the read-only account. |
 | `scripts/generate-sample-db.mjs` | Writes `sample-db/01-shop.generated.sql`. The data is generated with a fixed seed, so every run produces the same file.                                                                                                                                                            |
 
-## Sample data
+### Sample data
 
 The sample data is invented. `scripts/generate-sample-db.mjs` generates `sample-db/01-shop.generated.sql` and needs no network. Run `node scripts/generate-sample-db.mjs` after you change it or one of the `scripts/sample-db-*.mjs` modules, and commit the new SQL file. The MongoDB and RethinkDB samples hold the same rows, copied by `sample-nosql/seed.mjs` from the PostgreSQL sample.
+
+</details>
 
 ## Licence
 
