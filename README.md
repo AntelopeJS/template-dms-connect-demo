@@ -90,7 +90,7 @@ The assistant in the dashboard runs a coding agent in this project's folder, Cla
 **Without Docker.** The assistant runs as you, on your machine, so it uses the logins you already have. You set no token and no API key.
 
 - **Claude Code.** If you are signed in to Claude Code on this machine, the assistant uses that login. If you are not, run `claude` once and sign in. The assistant runs the copy of Claude Code that `@antelopejs/dms-ai` installs, so it needs no `claude` on your `PATH`.
-- **Codex.** This project has `@openai/codex` 0.154.0 as a dependency, so you install nothing more. The assistant does not read a `codex login` from your terminal. Open **Assistant** > **Settings** and press **Sign in with ChatGPT** once. The sign-in is stored in `~/.config/dms-ai` and serves every DMS project on your machine.
+- **Codex.** This project has `@openai/codex` 0.166.0 as a dependency, so you install nothing more. The assistant does not read a `codex login` from your terminal. Open **Assistant** > **Settings** and press **Sign in with ChatGPT** once. The sign-in is stored in `~/.config/dms-ai` and serves every DMS project on your machine.
 
 **With Docker.** The assistant runs inside the container, which has none of your logins. Give the container one of these before `docker compose up`:
 

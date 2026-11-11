@@ -28,7 +28,7 @@
     "@antelopejs/interface-database": ">=0.3.1 <1.0.0",
     "@antelopejs/interface-database-decorators": ">=0.2.1 <1.0.0",
     "@antelopejs/interface-dms": ">=0.12.0 <1.0.0",
-    "@openai/codex": "0.154.0"
+    "@openai/codex": "0.166.0"
   },
   "devDependencies": {
     "@antelopejs/core": "1.21.1",
