@@ -11,7 +11,7 @@ export default defineConfig({
         type: "local",
         path: ".",
         watchDir: ["src"],
-        installCommand: ["pnpm install", "pnpm run build"],
+        installCommand: ["pnpm install", "pnpm exec tsc"],
         reloadCommand: ["pnpm exec tsc"],
       },
     },
