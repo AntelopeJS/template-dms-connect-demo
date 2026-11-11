@@ -101,22 +101,24 @@ async function seedRethink(shop) {
     if (databases.includes(database))
       return console.log("rethinkdb: already seeded");
     await r.dbCreate(database).run(connection);
-    for (const [name, { rows, primaryKey, integerKeys }] of shop) {
-      const options =
-        primaryKey.length === 1 ? { primaryKey: primaryKey[0] } : {};
-      await r.db(database).tableCreate(name, options).run(connection);
-      for (let i = 0; i < rows.length; i += batchSize)
-        await r
-          .db(database)
-          .table(name)
-          .insert(
-            rows
-              .slice(i, i + batchSize)
-              .map((row) => withStringKeys(row, integerKeys)),
-          )
-          .run(connection);
-      console.log(`rethinkdb: ${name} ${rows.length}`);
-    }
+    await Promise.all(
+      [...shop].map(async ([name, { rows, primaryKey, integerKeys }]) => {
+        const options =
+          primaryKey.length === 1 ? { primaryKey: primaryKey[0] } : {};
+        await r.db(database).tableCreate(name, options).run(connection);
+        for (let i = 0; i < rows.length; i += batchSize)
+          await r
+            .db(database)
+            .table(name)
+            .insert(
+              rows
+                .slice(i, i + batchSize)
+                .map((row) => withStringKeys(row, integerKeys)),
+            )
+            .run(connection);
+        console.log(`rethinkdb: ${name} ${rows.length}`);
+      }),
+    );
     await r
       .db("rethinkdb")
       .table("users")
