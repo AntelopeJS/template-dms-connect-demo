@@ -22,18 +22,18 @@
     "sync:check": "antelopejs-sync --check --profile template"
   },
   "dependencies": {
-    "@antelopejs/interface-api": ">=0.3.0 <1.0.0",
-    "@antelopejs/interface-core": ">=0.4.0 <1.0.0",
-    "@antelopejs/interface-data-api": ">=0.6.1 <1.0.0",
-    "@antelopejs/interface-database": ">=0.3.1 <1.0.0",
-    "@antelopejs/interface-database-decorators": ">=0.2.1 <1.0.0",
-    "@antelopejs/interface-dms": ">=0.12.0 <1.0.0",
+    "@antelopejs/interface-api": ">=0.3.2 <1.0.0",
+    "@antelopejs/interface-core": ">=0.4.1 <1.0.0",
+    "@antelopejs/interface-data-api": ">=0.6.3 <1.0.0",
+    "@antelopejs/interface-database": ">=0.3.2 <1.0.0",
+    "@antelopejs/interface-database-decorators": ">=0.4.0 <1.0.0",
+    "@antelopejs/interface-dms": ">=0.13.2 <1.0.0",
     "@openai/codex": "0.166.0"
   },
   "devDependencies": {
-    "@antelopejs/core": "1.21.1",
-    "@antelopejs/dms-frontend": "0.10.0",
-    "@antelopejs/tooling-configs": "^0.5.1",
+    "@antelopejs/core": "1.21.3",
+    "@antelopejs/dms-frontend": "0.10.3",
+    "@antelopejs/tooling-configs": "^0.5.4",
     "@types/node": "^24.0.0",
     "@types/pg": "^8.23.1",
     "@types/rethinkdb": "^2.3.21",
