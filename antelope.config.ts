@@ -41,7 +41,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms-builder",
-        version: ">=0.10.2 <1.0.0",
+        version: ">=0.10.3 <1.0.0",
       },
       config: {
         projectRoot: __dirname,
