@@ -19,6 +19,7 @@ jobs:
     with:
       renovate-sync: false
       test-job: true
+      windows: true
   renovate-sync:
     if: >-
       github.event_name == 'pull_request'
