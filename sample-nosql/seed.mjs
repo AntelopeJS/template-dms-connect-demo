@@ -1,5 +1,7 @@
+import { readFile } from "node:fs/promises";
 import pg from "pg";
 import { MongoClient } from "mongodb";
+import mysql from "mysql2/promise";
 import rethinkdb from "rethinkdb";
 
 const target = process.argv[2];
@@ -12,7 +14,7 @@ pg.types.setTypeParser(20, Number);
 pg.types.setTypeParser(1700, Number);
 
 /**
- * @typedef {{ rows: object[], primaryKey: string[], integerKeys: string[] }} ShopTable
+ * @typedef {{ rows: Record<string, unknown>[], primaryKey: string[], integerKeys: string[] }} ShopTable
  * The rows of a table, its primary key columns, and its integer columns whose name ends in `_id`.
  */
 
@@ -130,9 +132,58 @@ async function seedRethink(shop) {
   }
 }
 
-const seeders = { mongodb: seedMongo, rethinkdb: seedRethink };
+/**
+ * Creates the shop tables of `mysql-schema.sql` in the sample MySQL or MariaDB, copies the rows into them, then creates the read-only account.
+ * The account is created last, so a sample that has it is complete, and a run that stopped before it starts over.
+ * @param {Map<string, ShopTable>} shop The tables read from PostgreSQL.
+ */
+async function seedMysql(shop) {
+  const connection = await mysql.createConnection({
+    uri: process.env.TARGET_URL,
+    timezone: "Z",
+    multipleStatements: true,
+  });
+  try {
+    const [readers] = await connection.query(
+      "SELECT 1 FROM mysql.user WHERE user = 'shop_reader'",
+    );
+    if (readers.length > 0) return console.log(`${target}: already seeded`);
+    await connection.query(
+      await readFile(new URL("mysql-schema.sql", import.meta.url), "utf8"),
+    );
+    await connection.query("SET foreign_key_checks = 0");
+    for (const [name, { rows }] of shop) {
+      const columns = Object.keys(rows[0] ?? {});
+      for (let i = 0; i < rows.length; i += batchSize)
+        await connection.query(
+          `INSERT INTO \`${name}\` (${columns.map((column) => `\`${column}\``).join(", ")}) VALUES ?`,
+          [
+            rows
+              .slice(i, i + batchSize)
+              .map((row) => columns.map((column) => row[column])),
+          ],
+        );
+      console.log(`${target}: ${name} ${rows.length}`);
+    }
+    await connection.query(
+      `CREATE USER 'shop_reader'@'%' IDENTIFIED BY 'shop_reader';
+       GRANT SELECT ON ${database}.* TO 'shop_reader'@'%'`,
+    );
+  } finally {
+    await connection.end();
+  }
+}
+
+const seeders = {
+  mongodb: seedMongo,
+  rethinkdb: seedRethink,
+  mysql: seedMysql,
+  mariadb: seedMysql,
+};
 if (!Object.hasOwn(seeders, target))
-  throw new Error(`Unknown target "${target}". Use mongodb or rethinkdb.`);
+  throw new Error(
+    `Unknown target "${target}". Use ${Object.keys(seeders).join(", ")}.`,
+  );
 
 const source = new pg.Client({ connectionString: process.env.PG_URL });
 await source.connect();

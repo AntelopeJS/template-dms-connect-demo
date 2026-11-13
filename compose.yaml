@@ -27,6 +27,12 @@ services:
       seed-rethinkdb:
         condition: service_completed_successfully
         required: false
+      seed-mysql:
+        condition: service_completed_successfully
+        required: false
+      seed-mariadb:
+        condition: service_completed_successfully
+        required: false
 
   mongo:
     image: mongo:8
@@ -122,6 +128,74 @@ services:
       sample-rethinkdb:
         condition: service_healthy
 
+  sample-mysql:
+    profiles: [mysql]
+    image: mysql:8.4
+    attach: false
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: shop
+    volumes:
+      - sample-mysql:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "--silent",
+          "-h",
+          "127.0.0.1",
+          "-uroot",
+          "-proot",
+        ]
+      interval: 2s
+      retries: 60
+
+  seed-mysql:
+    profiles: [mysql]
+    build: sample-nosql
+    attach: false
+    restart: "no"
+    command: ["mysql"]
+    environment:
+      PG_URL: postgres://shop:shop@sample-db:5432/shop
+      TARGET_URL: mysql://root:root@sample-mysql:3306/shop
+    depends_on:
+      sample-db:
+        condition: service_healthy
+      sample-mysql:
+        condition: service_healthy
+
+  sample-mariadb:
+    profiles: [mariadb]
+    image: mariadb:11.8
+    attach: false
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: shop
+    volumes:
+      - sample-mariadb:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 2s
+      retries: 60
+
+  seed-mariadb:
+    profiles: [mariadb]
+    build: sample-nosql
+    attach: false
+    restart: "no"
+    command: ["mariadb"]
+    environment:
+      PG_URL: postgres://shop:shop@sample-db:5432/shop
+      TARGET_URL: mysql://root:root@sample-mariadb:3306/shop
+    depends_on:
+      sample-db:
+        condition: service_healthy
+      sample-mariadb:
+        condition: service_healthy
+
 volumes:
   node_modules:
   home:
@@ -129,3 +203,5 @@ volumes:
   sample-db:
   sample-mongodb:
   sample-rethinkdb:
+  sample-mysql:
+  sample-mariadb:

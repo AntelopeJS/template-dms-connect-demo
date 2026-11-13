@@ -10,5 +10,6 @@ export default antelopeKnipConfig({
     "@types/pg",
     "@types/rethinkdb",
     "mongodb",
+    "mysql2",
   ],
 });
