@@ -4,7 +4,7 @@
 
 # AntelopeJS DMS connect demo
 
-**Try the Connect flow on a sample PostgreSQL, MongoDB or RethinkDB database, and watch the Builder generate the back office.**
+**Try the Connect flow on a sample PostgreSQL, MySQL, MariaDB, MongoDB or RethinkDB database, and watch the Builder generate the back office.**
 
 [AntelopeJS DMS](https://github.com/AntelopeJS/dms) · [Docs](https://dms.antelopejs.com/docs) · [Discord](https://discord.gg/g4pFt6eXqu)
 
@@ -12,7 +12,7 @@
 
 </div>
 
-This demo starts [AntelopeJS DMS](https://github.com/AntelopeJS/dms) next to a sample database: the online orders of a coffee brand, in 12 tables. The same data exists in PostgreSQL, MongoDB and RethinkDB, so you can compare what the Builder generates from each.
+This demo starts [AntelopeJS DMS](https://github.com/AntelopeJS/dms) next to a sample database: the online orders of a coffee brand, in 12 tables. The same data exists in PostgreSQL, MySQL, MariaDB, MongoDB and RethinkDB, so you can compare what the Builder generates from each.
 
 Starting your own project instead? Use [`template-dms`](https://github.com/AntelopeJS/template-dms).
 
@@ -40,6 +40,18 @@ Run one command, then paste its connection string into the Builder.
 postgres://dms_reader:dms_reader@sample-db:5432/shop
 ```
 
+**MySQL**, with `docker compose --profile mysql up`:
+
+```
+mysql://shop_reader:shop_reader@sample-mysql:3306/shop
+```
+
+**MariaDB**, with `docker compose --profile mariadb up`:
+
+```
+mysql://shop_reader:shop_reader@sample-mariadb:3306/shop
+```
+
 **MongoDB**, with `docker compose --profile mongodb up`:
 
 ```
@@ -52,7 +64,7 @@ mongodb://shop_reader:shop_reader@sample-mongodb:27017/shop?authSource=admin
 rethinkdb://shop_reader:shop_reader@sample-rethinkdb:28015/shop
 ```
 
-The PostgreSQL sample always starts, because the other two are converted from it. To get all three, pass both profiles: `docker compose --profile mongodb --profile rethinkdb up`. Each account is read-only.
+The PostgreSQL sample always starts, because the others are copied from it. To get several, pass several profiles, such as `docker compose --profile mysql --profile mongodb up`. Each account is read-only.
 
 ## Connect a sample database
 
@@ -66,7 +78,7 @@ The PostgreSQL sample always starts, because the other two are converted from it
 
 2. On **Home**, open the Builder with the hammer icon at the top right.
 3. Choose the **Database** tab. The **Connect a database** form opens.
-4. Enter `shop` as the name and pick the database type that matches your sample.
+4. Enter `shop` as the name and pick the database type that matches your sample. MySQL and MariaDB share the type **MySQL / MariaDB**.
 5. Paste the connection string from the table above into the **Connection** field, then press **Fill in**.
 6. Press **Connect**. The Builder runs four steps, then lists what it found.
 7. Choose who maps the tables:
@@ -116,14 +128,16 @@ The assistant starts in Safe mode, where it changes the project only through the
 
 `docker compose up` starts three containers. Each profile adds a database and a short-lived seeding container.
 
-| Service                          | Image                      | Role                                                                                                                                                                                                                                                                       |
-| -------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `dms`                            | `node:24-bookworm-slim`    | The DMS backend and the dashboard on [http://localhost:3001](http://localhost:3001). It loads `@antelopejs/dms`, the Builder (`@antelopejs/dms-builder`), the assistant (`@antelopejs/dms-ai`), and the infrastructure modules they need. Nothing else.                    |
-| `mongo`                          | `mongo:8`                  | The DMS's own data: accounts, roles, settings. It is separate from the MongoDB sample.                                                                                                                                                                                     |
-| `sample-db`                      | `postgres:17-alpine`       | The PostgreSQL sample, with 12 tables: customers, categories, products, coupons, orders, order items, payments, shipments, returns, reviews, support tickets, and subscriptions. It holds about 3,100 orders from May 2025 to October 2026. Every amount is in US dollars. |
-| `sample-mongodb`                 | `mongo:8`                  | The MongoDB sample, with the same 12 tables as 12 collections. Profile `mongodb`.                                                                                                                                                                                          |
-| `sample-rethinkdb`               | `rethinkdb:2.4`            | The RethinkDB sample, with the same 12 tables. Profile `rethinkdb`.                                                                                                                                                                                                        |
-| `seed-mongodb`, `seed-rethinkdb` | built from `sample-nosql/` | Read every table from `sample-db` and write it into the matching sample, then exit. They skip a sample that already holds data.                                                                                                                                            |
+| Service                                                        | Image                      | Role                                                                                                                                                                                                                                                                       |
+| -------------------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dms`                                                          | `node:24-bookworm-slim`    | The DMS backend and the dashboard on [http://localhost:3001](http://localhost:3001). It loads `@antelopejs/dms`, the Builder (`@antelopejs/dms-builder`), the assistant (`@antelopejs/dms-ai`), and the infrastructure modules they need. Nothing else.                    |
+| `mongo`                                                        | `mongo:8`                  | The DMS's own data: accounts, roles, settings. It is separate from the MongoDB sample.                                                                                                                                                                                     |
+| `sample-db`                                                    | `postgres:17-alpine`       | The PostgreSQL sample, with 12 tables: customers, categories, products, coupons, orders, order items, payments, shipments, returns, reviews, support tickets, and subscriptions. It holds about 3,100 orders from May 2025 to October 2026. Every amount is in US dollars. |
+| `sample-mongodb`                                               | `mongo:8`                  | The MongoDB sample, with the same 12 tables as 12 collections. Profile `mongodb`.                                                                                                                                                                                          |
+| `sample-rethinkdb`                                             | `rethinkdb:2.4`            | The RethinkDB sample, with the same 12 tables. Profile `rethinkdb`.                                                                                                                                                                                                        |
+| `sample-mysql`                                                 | `mysql:8.4`                | The MySQL sample, with the same 12 tables, their keys and their foreign keys. Profile `mysql`.                                                                                                                                                                             |
+| `sample-mariadb`                                               | `mariadb:11.8`             | The MariaDB sample, with the same 12 tables as MySQL. Profile `mariadb`.                                                                                                                                                                                                   |
+| `seed-mongodb`, `seed-rethinkdb`, `seed-mysql`, `seed-mariadb` | built from `sample-nosql/` | Read every table from `sample-db` and write it into the matching sample, then exit. They skip a sample that already holds data.                                                                                                                                            |
 
 The `dms` container mounts this repository. Code that the Builder or the assistant writes lands in your project, and you can commit it. On Linux, the container writes as user 1000.
 
@@ -201,22 +215,22 @@ If you ran the DMS on your machine, stop it and run `docker compose -f compose.y
 
 ### Files
 
-| Path                             | Content                                                                                                                                                                                                                                                                            |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `compose.yaml`                   | The services, the `mongodb` and `rethinkdb` profiles, and the volumes.                                                                                                                                                                                                             |
-| `compose.host.yaml`              | Publishes the ports of `mongo` and `sample-db` on `127.0.0.1`, for running the DMS on your machine.                                                                                                                                                                                |
-| `Dockerfile`                     | The `dms` image: Node 24 and pnpm 10.2.0.                                                                                                                                                                                                                                          |
-| `docker/start.sh`                | Installs the dependencies, starts the backend, waits until its API answers, then starts the dashboard.                                                                                                                                                                             |
-| `antelope.config.ts`             | The DMS modules and their configuration.                                                                                                                                                                                                                                           |
-| `src/`                           | This project's own module: the Home page.                                                                                                                                                                                                                                          |
-| `sample-db/`                     | The image of the PostgreSQL sample, its SQL, and a read-only role.                                                                                                                                                                                                                 |
-| `sample-mongo/`                  | The image of the MongoDB sample and the script that creates its read-only account.                                                                                                                                                                                                 |
-| `sample-nosql/`                  | The seeding script. It reads the tables from `sample-db` and writes them into the MongoDB or RethinkDB sample. The RethinkDB script writes every numeric `_id` column as a string, because the Builder declares relation columns as strings, and it creates the read-only account. |
-| `scripts/generate-sample-db.mjs` | Writes `sample-db/01-shop.generated.sql`. The data is generated with a fixed seed, so every run produces the same file.                                                                                                                                                            |
+| Path                             | Content                                                                                                                                                                                                                                                                                                                                                                                       |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `compose.yaml`                   | The services, the `mysql`, `mariadb`, `mongodb` and `rethinkdb` profiles, and the volumes.                                                                                                                                                                                                                                                                                                    |
+| `compose.host.yaml`              | Publishes the ports of `mongo` and `sample-db` on `127.0.0.1`, for running the DMS on your machine.                                                                                                                                                                                                                                                                                           |
+| `Dockerfile`                     | The `dms` image: Node 24 and pnpm 10.2.0.                                                                                                                                                                                                                                                                                                                                                     |
+| `docker/start.sh`                | Installs the dependencies, starts the backend, waits until its API answers, then starts the dashboard.                                                                                                                                                                                                                                                                                        |
+| `antelope.config.ts`             | The DMS modules and their configuration.                                                                                                                                                                                                                                                                                                                                                      |
+| `src/`                           | This project's own module: the Home page.                                                                                                                                                                                                                                                                                                                                                     |
+| `sample-db/`                     | The image of the PostgreSQL sample, its SQL, and a read-only role.                                                                                                                                                                                                                                                                                                                            |
+| `sample-mongo/`                  | The image of the MongoDB sample and the script that creates its read-only account.                                                                                                                                                                                                                                                                                                            |
+| `sample-nosql/`                  | The seeding script. It reads the tables from `sample-db` and writes them into the MySQL, MariaDB, MongoDB or RethinkDB sample. `mysql-schema.sql` declares the MySQL and MariaDB tables. The RethinkDB script writes every numeric `_id` column as a string, because the Builder declares relation columns as strings. The MySQL, MariaDB and RethinkDB scripts create the read-only account. |
+| `scripts/generate-sample-db.mjs` | Writes `sample-db/01-shop.generated.sql`. The data is generated with a fixed seed, so every run produces the same file.                                                                                                                                                                                                                                                                       |
 
 ### Sample data
 
-The sample data is invented. `scripts/generate-sample-db.mjs` generates `sample-db/01-shop.generated.sql` and needs no network. Run `node scripts/generate-sample-db.mjs` after you change it or one of the `scripts/sample-db-*.mjs` modules, and commit the new SQL file. The MongoDB and RethinkDB samples hold the same rows, copied by `sample-nosql/seed.mjs` from the PostgreSQL sample.
+The sample data is invented. `scripts/generate-sample-db.mjs` generates `sample-db/01-shop.generated.sql` and needs no network. Run `node scripts/generate-sample-db.mjs` after you change it or one of the `scripts/sample-db-*.mjs` modules, and commit the new SQL file. The MySQL, MariaDB, MongoDB and RethinkDB samples hold the same rows, copied by `sample-nosql/seed.mjs` from the PostgreSQL sample.
 
 </details>
 
