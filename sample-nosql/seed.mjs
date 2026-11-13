@@ -133,8 +133,8 @@ async function seedRethink(shop) {
 }
 
 /**
- * Creates the shop tables of `mysql-schema.sql` in the sample MySQL or MariaDB, copies the rows into them, then creates the read-only account.
- * The account is created last, so a sample that has it is complete, and a run that stopped before it starts over.
+ * Creates the shop tables of `mysql-schema.sql` in the sample MySQL or MariaDB, copies the rows into them, then grants the read-only account.
+ * The grant comes last, so a sample that has it is complete, and a run that stopped before it starts over.
  * @param {Map<string, ShopTable>} shop The tables read from PostgreSQL.
  */
 async function seedMysql(shop) {
@@ -144,14 +144,15 @@ async function seedMysql(shop) {
     multipleStatements: true,
   });
   try {
-    const [readers] = await connection.query(
-      "SELECT 1 FROM mysql.user WHERE user = 'shop_reader'",
+    const [grants] = await connection.query(
+      "SELECT 1 FROM information_schema.SCHEMA_PRIVILEGES WHERE GRANTEE = ? AND TABLE_SCHEMA = ?",
+      ["'shop_reader'@'%'", database],
     );
-    if (readers.length > 0) return console.log(`${target}: already seeded`);
+    if (grants.length > 0) return console.log(`${target}: already seeded`);
     await connection.query(
       await readFile(new URL("mysql-schema.sql", import.meta.url), "utf8"),
     );
-    await connection.query("SET foreign_key_checks = 0");
+    await connection.query("SET time_zone = '+00:00', foreign_key_checks = 0");
     for (const [name, { rows }] of shop) {
       const columns = Object.keys(rows[0] ?? {});
       for (let i = 0; i < rows.length; i += batchSize)
@@ -166,7 +167,7 @@ async function seedMysql(shop) {
       console.log(`${target}: ${name} ${rows.length}`);
     }
     await connection.query(
-      `CREATE USER 'shop_reader'@'%' IDENTIFIED BY 'shop_reader';
+      `CREATE USER IF NOT EXISTS 'shop_reader'@'%' IDENTIFIED BY 'shop_reader';
        GRANT SELECT ON ${database}.* TO 'shop_reader'@'%'`,
     );
   } finally {
