@@ -46,8 +46,8 @@ importers:
         specifier: ~1.23.3
         version: 1.23.3
       '@antelopejs/dms-frontend':
-        specifier: '>=0.11.1 <0.12.0'
-        version: 0.11.1(@antelopejs/core@1.23.3)
+        specifier: '>=0.11.2 <0.12.0'
+        version: 0.11.2(@antelopejs/core@1.23.3)
       '@antelopejs/tooling-configs':
         specifier: ^0.7.1
         version: 0.7.1(knip@6.44.1)(oxfmt@0.66.0)(oxlint@1.81.0(oxlint-tsgolint@7.0.2006))
@@ -86,8 +86,8 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
-  '@antelopejs/dms-frontend@0.11.1':
-    resolution: {integrity: sha512-Owu88uYgEfH3TTSVt30PYEeZFydq5aqLamZcSitYaFBNDUyZAglbR8HqAwqQM67nSFCwJ/sdQaqVcV52jDXjzw==}
+  '@antelopejs/dms-frontend@0.11.2':
+    resolution: {integrity: sha512-iuVUIYxQrRoc3amiQGgNoEogYaMrLWmMRNX0r7MWxbwO0nue2C+TH3Z4xPnndINm4KEnqjeb4Anxif6unq5laA==}
     engines: {node: '>=20.19.0'}
     hasBin: true
     peerDependencies:
@@ -1653,7 +1653,7 @@ snapshots:
       semver: 7.8.5
       typescript: 5.9.3
 
-  '@antelopejs/dms-frontend@0.11.1(@antelopejs/core@1.23.3)':
+  '@antelopejs/dms-frontend@0.11.2(@antelopejs/core@1.23.3)':
     dependencies:
       '@antelopejs/core': 1.23.3
       '@intlify/message-compiler': 11.4.16
