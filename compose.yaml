@@ -88,7 +88,7 @@ services:
 
   seed-mongodb:
     profiles: [mongodb]
-    build: sample-nosql
+    build: sample-seed
     attach: false
     restart: "no"
     command: ["mongodb"]
@@ -115,7 +115,7 @@ services:
 
   seed-rethinkdb:
     profiles: [rethinkdb]
-    build: sample-nosql
+    build: sample-seed
     attach: false
     restart: "no"
     command: ["rethinkdb"]
@@ -154,7 +154,7 @@ services:
 
   seed-mysql:
     profiles: [mysql]
-    build: sample-nosql
+    build: sample-seed
     attach: false
     restart: "no"
     command: ["mysql"]
@@ -183,7 +183,7 @@ services:
 
   seed-mariadb:
     profiles: [mariadb]
-    build: sample-nosql
+    build: sample-seed
     attach: false
     restart: "no"
     command: ["mariadb"]
