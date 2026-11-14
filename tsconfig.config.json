@@ -11,7 +11,7 @@
   "include": [
     "./antelope.config.ts",
     "./scripts/**/*.mjs",
-    "./sample-nosql/**/*.mjs",
+    "./sample-seed/**/*.mjs",
     "./sample-mongo/**/*.js"
   ]
 }
