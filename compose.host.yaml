@@ -6,3 +6,19 @@ services:
   sample-db:
     ports:
       - "127.0.0.1:${SAMPLE_DB_PORT:-5432}:5432"
+
+  sample-mongodb:
+    ports:
+      - "127.0.0.1:${SAMPLE_MONGODB_PORT:-27018}:27017"
+
+  sample-rethinkdb:
+    ports:
+      - "127.0.0.1:${SAMPLE_RETHINKDB_PORT:-28015}:28015"
+
+  sample-mysql:
+    ports:
+      - "127.0.0.1:${SAMPLE_MYSQL_PORT:-3306}:3306"
+
+  sample-mariadb:
+    ports:
+      - "127.0.0.1:${SAMPLE_MARIADB_PORT:-3307}:3306"

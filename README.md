@@ -141,7 +141,7 @@ The assistant starts in Safe mode, where it changes the project only through the
 
 The `dms` container mounts this repository. Code that the Builder or the assistant writes lands in your project, and you can commit it. On Linux, the container writes as user 1000.
 
-The stack uses placeholder secrets such as `jwtSecret: "dev"`, and its ports listen on `127.0.0.1`. The sample databases publish no port, except in [the host setup](#run-the-dms-without-docker), where `compose.host.yaml` publishes the MongoDB and PostgreSQL ports on `127.0.0.1` only. Keep the stack on your own machine.
+The stack uses placeholder secrets such as `jwtSecret: "dev"`, and its ports listen on `127.0.0.1`. The sample databases publish no port, except in [the host setup](#run-the-dms-without-docker), where `compose.host.yaml` publishes the ports of the MongoDB of the DMS and of every sample on `127.0.0.1` only. Keep the stack on your own machine.
 
 </details>
 
@@ -183,11 +183,20 @@ Wait until the log prints `Constructed modules`. In the second terminal, start t
 pnpm frontend:dev
 ```
 
-Open [http://localhost:3001](http://localhost:3001) when the log prints `Local: http://localhost:3001/`, then follow [Connect a sample database](#connect-a-sample-database) with one change. The DMS reaches the sample through your machine, so the host in the connection string is `localhost` instead of `sample-db`:
+Open [http://localhost:3001](http://localhost:3001) when the log prints `Local: http://localhost:3001/`, then follow [Connect a sample database](#connect-a-sample-database) with one change. The DMS reaches the sample through your machine, so the connection string uses `localhost` and the published port:
 
 ```
 postgres://dms_reader:dms_reader@localhost:5432/shop
 ```
+
+To use another sample, add its profile and service to the `up` command, for example `docker compose -f compose.yaml -f compose.host.yaml --profile mongodb up -d --wait mongo sample-mongodb seed-mongodb`. Its connection string on your machine is:
+
+| Sample    | Connection string                                                         | Port variable           |
+| --------- | ------------------------------------------------------------------------- | ----------------------- |
+| MongoDB   | `mongodb://shop_reader:shop_reader@localhost:27018/shop?authSource=admin` | `SAMPLE_MONGODB_PORT`   |
+| RethinkDB | `rethinkdb://shop_reader:shop_reader@localhost:28015/shop`                | `SAMPLE_RETHINKDB_PORT` |
+| MySQL     | `mysql://shop_reader:shop_reader@localhost:3306/shop`                     | `SAMPLE_MYSQL_PORT`     |
+| MariaDB   | `mysql://shop_reader:shop_reader@localhost:3307/shop`                     | `SAMPLE_MARIADB_PORT`   |
 
 Press `Ctrl` `C` in each terminal to stop the DMS. To stop the containers, run `docker compose -f compose.yaml -f compose.host.yaml down`.
 
@@ -218,7 +227,7 @@ If you ran the DMS on your machine, stop it and run `docker compose -f compose.y
 | Path                             | Content                                                                                                                                                                                                                                                                                                                                                                                       |
 | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `compose.yaml`                   | The services, the `mysql`, `mariadb`, `mongodb` and `rethinkdb` profiles, and the volumes.                                                                                                                                                                                                                                                                                                    |
-| `compose.host.yaml`              | Publishes the ports of `mongo` and `sample-db` on `127.0.0.1`, for running the DMS on your machine.                                                                                                                                                                                                                                                                                           |
+| `compose.host.yaml`              | Publishes the ports of `mongo` and of every sample database on `127.0.0.1`, for running the DMS on your machine.                                                                                                                                                                                                                                                                              |
 | `Dockerfile`                     | The `dms` image: Node 24 and pnpm 10.2.0.                                                                                                                                                                                                                                                                                                                                                     |
 | `docker/start.sh`                | Installs the dependencies, starts the backend, waits until its API answers, then starts the dashboard.                                                                                                                                                                                                                                                                                        |
 | `antelope.config.ts`             | The DMS modules and their configuration.                                                                                                                                                                                                                                                                                                                                                      |
