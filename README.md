@@ -4,7 +4,7 @@
 
 # AntelopeJS DMS connect demo
 
-**Try the Connect flow on a sample PostgreSQL, MySQL, MariaDB, MongoDB or RethinkDB database, and watch the Builder generate the back office.**
+**Try the Connect flow on a sample PostgreSQL, MySQL, MariaDB, MongoDB or RethinkDB database, and watch the assistant generate the back office.**
 
 [AntelopeJS DMS](https://github.com/AntelopeJS/dms) · [Docs](https://dms.antelopejs.com/docs) · [Discord](https://discord.gg/g4pFt6eXqu)
 
@@ -12,7 +12,7 @@
 
 </div>
 
-This demo starts [AntelopeJS DMS](https://github.com/AntelopeJS/dms) next to a sample database: the online orders of a coffee brand, in 12 tables. The same data exists in PostgreSQL, MySQL, MariaDB, MongoDB and RethinkDB, so you can compare what the Builder generates from each.
+This demo starts [AntelopeJS DMS](https://github.com/AntelopeJS/dms) next to a sample database: the online orders of a coffee brand, in 12 tables. The same data exists in PostgreSQL, MySQL, MariaDB, MongoDB and RethinkDB, so you can compare what the assistant generates from each.
 
 Starting your own project instead? Use [`template-dms`](https://github.com/AntelopeJS/template-dms).
 
@@ -32,7 +32,7 @@ Then [create the administrator and connect a sample database](#connect-a-sample-
 
 ## Pick a sample database
 
-Run one command, then paste its connection string into the Builder.
+Run one command, then paste its connection string into the assistant.
 
 **PostgreSQL**, with `docker compose up`:
 
@@ -76,46 +76,31 @@ The PostgreSQL sample always starts, because the others are copied from it. To g
 
    The address opens the setup wizard. There are no default credentials, so create the administrator account there. The password needs an uppercase letter, a digit, and one of `@$!%*?&`. If you set `DMS_SETUP_TOKEN`, the log shows `<DMS_SETUP_TOKEN>` in place of the token, and you use your own value.
 
-2. On **Home**, open the Builder with the hammer icon at the top right.
-3. Choose the **Database** tab. The **Connect a database** form opens.
-4. Enter `shop` as the name and pick the database type that matches your sample. MySQL and MariaDB share the type **MySQL / MariaDB**.
-5. Paste the connection string from the table above into the **Connection** field, then press **Fill in**.
-6. Press **Connect**. The Builder runs four steps, then lists what it found.
-7. Choose who maps the tables:
-   - **Review it myself** opens the mapping in the Builder. You answer the questions and generate the pages.
-   - **Let the assistant finish** hands the job to the assistant, which also adds the statistics pages. It needs a coding agent. See the next section.
+2. Press **Open the dashboard**. The assistant's window opens. Press **Get started**.
+3. Choose Claude or Codex and connect it. The assistant runs on your own subscription.
+   - **Claude** asks you to run `claude setup-token` in a terminal on your machine and paste the token it prints. It needs the Claude Code CLI on that machine.
+   - **Codex** signs in with your ChatGPT account through **Continue with ChatGPT**. With Docker, the page that ChatGPT sends you back to does not load. Open **DMS running on another machine?**, then paste that page's address.
+4. Choose **Start from an existing database**. Pick the engine of your sample and paste the connection string from the list above into **Connection URL**.
+5. Press **Connect and analyse**. The window checks the connection, reads the schema, then lists the tables and the screens it proposes.
+6. Untick what you don't need, then choose **Build directly**, or **Generate a first mockup** to review the screens before they are built.
+
+The window opens on its own until you finish it. Later, open it with **Assistant** at the bottom left.
 
 The connection changes three places in the repository:
 
-- `antelope.config.ts` gets the `builder-db-shop` driver module and the `builder-db-shop-tables` module.
+- `antelope.config.ts` gets the `builder-db-shop` driver module and the `builder-db-shop-tables` module, and the `dms` module records the connection.
 - `.env` gets `BUILDER_DB_SHOP_URL`. Git ignores `.env`.
 - `modules/builder-db-shop-tables/` holds the generated TypeScript: one table definition and one page per mapped table.
 
 ## Generated pages start read-only
 
-A mapped table gets list, detail, and export routes, and no create, edit, or delete route, until you switch on **Rows can be edited** for it. The sample connects as `dms_reader`, a role with `SELECT` only.
+A mapped table gets list, detail, and export routes, and no create, edit, or delete route, until you ask the assistant to let its rows be edited. The sample connects as `dms_reader`, a role with `SELECT` only.
 
-## Let the assistant build the pages
+## The assistant
 
-The assistant in the dashboard runs a coding agent in this project's folder, Claude Code or Codex, on your own subscription. Open the chat with the sparkle icon in the header, or press `Ctrl` `Shift` `K`. Its settings are under **Modules** > **Assistant**.
+The assistant runs a coding agent in this project's folder, Claude Code or Codex. Open its chat with `Ctrl` `Shift` `K`. Its settings are under **Modules** > **Assistant**. It starts in Safe mode, where it changes the project only through the builder.
 
-**Without Docker.** The assistant runs as you, on your machine, so it uses the logins you already have. You set no token and no API key.
-
-- **Claude Code.** If you are signed in to Claude Code on this machine, the assistant uses that login. If you are not, run `claude` once and sign in. The assistant runs the copy of Claude Code that `@antelopejs/dms-ai` installs, so it needs no `claude` on your `PATH`.
-- **Codex.** This project has `@openai/codex` 0.166.0 as a dependency, so you install nothing more. The assistant does not read a `codex login` from your terminal. Open **Assistant** > **Settings** and press **Sign in with ChatGPT** once. The sign-in is stored in `~/.config/dms-ai` and serves every DMS project on your machine.
-
-**With Docker.** The assistant runs inside the container, which has none of your logins. Give the container one of these before `docker compose up`:
-
-- **Claude Code with your Claude subscription.** On your machine, run `claude setup-token` and put the token in a `.env` file next to `compose.yaml`:
-
-  ```bash
-  CLAUDE_CODE_OAUTH_TOKEN=sk-ant-oat01-...
-  ```
-
-- **Codex with your ChatGPT plan.** Open **Assistant** > **Settings** and press **Sign in with ChatGPT**. The page that OpenAI sends you back to does not load, because the assistant is in the container. Copy its address from the address bar and press **Paste the return address**.
-- **An Anthropic API key**, if you prefer one. Put `ANTHROPIC_API_KEY=sk-ant-...` in the same `.env` file.
-
-The assistant starts in Safe mode, where it changes the project only through the Builder, and in Plan only, where it proposes a plan and waits for you to approve it. On the sample, it maps the tables, writes the table pages, and adds statistics pages.
+The window stores the login under `~/.config`. With Docker, that folder is in the `home` volume, so the login survives a restart. To skip that step, for example in CI, put `CLAUDE_CODE_OAUTH_TOKEN` (from `claude setup-token`) in a `.env` file next to `compose.yaml`. It overrides the stored login.
 
 <a href="https://github.com/AntelopeJS/dms"><img data-illustration src="./.github/readme/star-strip.svg" width="100%" alt="Liked the demo? A star helps other developers find AntelopeJS DMS."></a>
 
@@ -128,18 +113,18 @@ The assistant starts in Safe mode, where it changes the project only through the
 
 `docker compose up` starts three containers. Each profile adds a database and a short-lived seeding container.
 
-| Service                                                        | Image                     | Role                                                                                                                                                                                                                                                                       |
-| -------------------------------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `dms`                                                          | `node:24-bookworm-slim`   | The DMS backend and the dashboard on [http://localhost:3001](http://localhost:3001). It loads `@antelopejs/dms`, the Builder (`@antelopejs/dms-builder`), the assistant (`@antelopejs/dms-ai`), and the infrastructure modules they need. Nothing else.                    |
-| `mongo`                                                        | `mongo:8`                 | The DMS's own data: accounts, roles, settings. It is separate from the MongoDB sample.                                                                                                                                                                                     |
-| `sample-db`                                                    | `postgres:17-alpine`      | The PostgreSQL sample, with 12 tables: customers, categories, products, coupons, orders, order items, payments, shipments, returns, reviews, support tickets, and subscriptions. It holds about 3,100 orders from May 2025 to October 2026. Every amount is in US dollars. |
-| `sample-mongodb`                                               | `mongo:8`                 | The MongoDB sample, with the same 12 tables as 12 collections. Profile `mongodb`.                                                                                                                                                                                          |
-| `sample-rethinkdb`                                             | `rethinkdb:2.4`           | The RethinkDB sample, with the same 12 tables. Profile `rethinkdb`.                                                                                                                                                                                                        |
-| `sample-mysql`                                                 | `mysql:8.4`               | The MySQL sample, with the same 12 tables, their keys and their foreign keys. Profile `mysql`.                                                                                                                                                                             |
-| `sample-mariadb`                                               | `mariadb:11.8`            | The MariaDB sample, with the same 12 tables as MySQL. Profile `mariadb`.                                                                                                                                                                                                   |
-| `seed-mongodb`, `seed-rethinkdb`, `seed-mysql`, `seed-mariadb` | built from `sample-seed/` | Read every table from `sample-db` and write it into the matching sample, then exit. They skip a sample that already holds data.                                                                                                                                            |
+| Service                                                        | Image                     | Role                                                                                                                                                                                                                                                                                                                 |
+| -------------------------------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dms`                                                          | `node:24-bookworm-slim`   | The DMS backend and the dashboard on [http://localhost:3001](http://localhost:3001). It loads `@antelopejs/dms`, which brings the builder, the MCP server and the mockups in development, the AI assistant and its onboarding (`@antelopejs/dms-assistant`), and the infrastructure modules they need. Nothing else. |
+| `mongo`                                                        | `mongo:8`                 | The DMS's own data: accounts, roles, settings. It is separate from the MongoDB sample.                                                                                                                                                                                                                               |
+| `sample-db`                                                    | `postgres:17-alpine`      | The PostgreSQL sample, with 12 tables: customers, categories, products, coupons, orders, order items, payments, shipments, returns, reviews, support tickets, and subscriptions. It holds about 3,100 orders from May 2025 to October 2026. Every amount is in US dollars.                                           |
+| `sample-mongodb`                                               | `mongo:8`                 | The MongoDB sample, with the same 12 tables as 12 collections. Profile `mongodb`.                                                                                                                                                                                                                                    |
+| `sample-rethinkdb`                                             | `rethinkdb:2.4`           | The RethinkDB sample, with the same 12 tables. Profile `rethinkdb`.                                                                                                                                                                                                                                                  |
+| `sample-mysql`                                                 | `mysql:8.4`               | The MySQL sample, with the same 12 tables, their keys and their foreign keys. Profile `mysql`.                                                                                                                                                                                                                       |
+| `sample-mariadb`                                               | `mariadb:11.8`            | The MariaDB sample, with the same 12 tables as MySQL. Profile `mariadb`.                                                                                                                                                                                                                                             |
+| `seed-mongodb`, `seed-rethinkdb`, `seed-mysql`, `seed-mariadb` | built from `sample-seed/` | Read every table from `sample-db` and write it into the matching sample, then exit. They skip a sample that already holds data.                                                                                                                                                                                      |
 
-The `dms` container mounts this repository. Code that the Builder or the assistant writes lands in your project, and you can commit it. On Linux, the container writes as user 1000.
+The `dms` container mounts this repository. Code that the assistant writes lands in your project, and you can commit it. On Linux, the container writes as user 1000.
 
 The stack uses placeholder secrets such as `jwtSecret: "dev"`, and its ports listen on `127.0.0.1`. The sample databases publish no port, except in [the host setup](#run-the-dms-without-docker), where `compose.host.yaml` publishes the ports of the MongoDB of the DMS and of every sample on `127.0.0.1` only. Keep the stack on your own machine.
 
@@ -150,10 +135,10 @@ The stack uses placeholder secrets such as `jwtSecret: "dev"`, and its ports lis
 
 ### Run the DMS without Docker
 
-The sample database still runs in Docker. Only the DMS runs on your machine. You need git, Docker with Compose v2, Node.js 24, and pnpm 10.2.0.
+The sample database still runs in Docker. Only the DMS runs on your machine. You need git, Docker with Compose v2, Node.js 24, and pnpm 10.33.0.
 
 - Node.js 24 is the version in `.nvmrc`.
-- pnpm 10.2.0 is the version that `packageManager` in `package.json` pins. Node.js 24 includes corepack, and `corepack enable` makes the `pnpm` command use that version.
+- pnpm 10.33.0 is the version that `packageManager` in `package.json` pins. Node.js 24 includes corepack, and `corepack enable` makes the `pnpm` command use that version.
 
 Create the project. The command installs its packages:
 
@@ -228,7 +213,7 @@ If you ran the DMS on your machine, stop it and run `docker compose -f compose.y
 | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `compose.yaml`                   | The services, the `mysql`, `mariadb`, `mongodb` and `rethinkdb` profiles, and the volumes.                                                                                                                                                                                                                                                                                                    |
 | `compose.host.yaml`              | Publishes the ports of `mongo` and of every sample database on `127.0.0.1`, for running the DMS on your machine.                                                                                                                                                                                                                                                                              |
-| `Dockerfile`                     | The `dms` image: Node 24 and pnpm 10.2.0.                                                                                                                                                                                                                                                                                                                                                     |
+| `Dockerfile`                     | The `dms` image: Node 24 and pnpm 10.33.0.                                                                                                                                                                                                                                                                                                                                                    |
 | `docker/start.sh`                | Installs the dependencies, starts the backend, waits until its API answers, then starts the dashboard.                                                                                                                                                                                                                                                                                        |
 | `antelope.config.ts`             | The DMS modules and their configuration.                                                                                                                                                                                                                                                                                                                                                      |
 | `src/`                           | This project's own module: the Home page.                                                                                                                                                                                                                                                                                                                                                     |

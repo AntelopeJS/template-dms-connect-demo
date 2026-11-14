@@ -7,6 +7,6 @@ RUN corepack enable \
   && mkdir -p /app/node_modules \
   && chown -R node:node /app /home/node
 USER node
-RUN corepack prepare pnpm@10.2.0 --activate
+RUN corepack prepare pnpm@10.33.0 --activate
 WORKDIR /app
 CMD ["sh", "docker/start.sh"]
