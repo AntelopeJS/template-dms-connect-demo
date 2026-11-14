@@ -10,7 +10,6 @@ services:
       HOST: 0.0.0.0
       npm_config_store_dir: /home/node/.pnpm-store
       MONGODB_URL: mongodb://mongo:27017
-      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:-}
     volumes:
       - .:/app
