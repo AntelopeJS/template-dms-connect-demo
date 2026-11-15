@@ -20,7 +20,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms",
-        version: "^0.20.0",
+        version: ">=0.20.1 <0.21.0",
       },
       config: {
         apiBaseUrl: "${@api.API_PUBLIC_BASE_URL}",
@@ -43,7 +43,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms-assistant",
-        version: "^0.1.0",
+        version: ">=0.2.0 <0.3.0",
       },
       config: {
         backendUrl: "${@api.API_LOCAL_BASE_URL}",
@@ -54,7 +54,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/mongodb",
-        version: "^1.8.1",
+        version: "~1.8.2",
       },
       config: {
         url: "mongodb://localhost:27017",
@@ -65,7 +65,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/auth-jwt",
-        version: "^1.1.1",
+        version: "~1.1.2",
       },
       config: {
         secret: "dev",
@@ -75,7 +75,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/api",
-        version: "^1.7.3",
+        version: "~1.7.4",
       },
       config: {
         servers: [{ protocol: "http", port: 5010 }],
@@ -85,7 +85,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/file-storage-local",
-        version: "^0.2.1",
+        version: ">=0.2.1 <0.3.0",
       },
       config: {
         storagePath: ".antelope/file-storage",
@@ -97,7 +97,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/nodemailer",
-        version: ">=0.0.11 <1.0.0",
+        version: ">=0.0.12 <0.1.0",
       },
       config: {
         ethereal: true,
