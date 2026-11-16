@@ -20,7 +20,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms",
-        version: ">=0.20.5 <0.21.0",
+        version: ">=0.20.7 <0.21.0",
       },
       config: {
         apiBaseUrl: "${@api.API_PUBLIC_BASE_URL}",
@@ -43,7 +43,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms-assistant",
-        version: ">=0.2.4 <0.3.0",
+        version: ">=0.2.6 <0.3.0",
       },
       config: {
         backendUrl: "${@api.API_LOCAL_BASE_URL}",
@@ -85,7 +85,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/file-storage-local",
-        version: ">=0.2.1 <0.3.0",
+        version: ">=0.2.2 <0.3.0",
       },
       config: {
         storagePath: ".antelope/file-storage",
@@ -97,7 +97,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/nodemailer",
-        version: ">=0.0.12 <0.1.0",
+        version: ">=0.0.13 <0.1.0",
       },
       config: {
         ethereal: true,
