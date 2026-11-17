@@ -104,7 +104,15 @@ The window stores the login under `~/.config`. With Docker, that folder is in th
 
 The `.antelope` folder, where the build writes its state and the DMS keeps uploaded files under `file-storage`, is in the `antelope` volume and not in the project folder.
 
-With Docker Engine on Linux, the container runs as the user who owns the project folder, whatever its user id. The files it writes into the project, such as `dist`, `antelope-lock`, `.mcp.json`, `.codex` and the pages under `modules/`, belong to you.
+On Linux, the container runs as the user who owns the project folder, whatever its user id, with Docker Engine, rootless Docker and Docker Desktop alike. The files it writes into the project, such as `dist`, `antelope-lock`, `.mcp.json`, `.codex` and the pages under `modules/`, belong to you.
+
+To run a command in the running container, pass `-u node` so it runs as that same user:
+
+```bash
+docker compose exec -u node dms pnpm add <package>
+```
+
+Without `-u node`, `docker compose exec` runs as root, and with Docker Engine the files it writes belong to root, which the DMS cannot then rewrite.
 
 `docker compose down -v` deletes every volume of the stack, not only `antelope`:
 

@@ -1,9 +1,14 @@
 #!/usr/bin/env sh
 set -eu
 
+node_writes_app() {
+  setpriv --reuid="$(id -u node)" --regid="$(id -g node)" --clear-groups \
+    sh -c 'probe=$(mktemp -p /app .write-probe.XXXXXX) && rm -f "$probe"' 2>/dev/null
+}
+
 uid=$(stat -c %u /app)
 gid=$(stat -c %g /app)
-if [ "$uid" = 0 ]; then
+if [ "$uid" = 0 ] && node_writes_app; then
   uid=$(id -u node)
   gid=$(id -g node)
 fi
