@@ -8,5 +8,8 @@ RUN corepack enable \
   && chown -R node:node /app /home/node
 USER node
 RUN corepack prepare pnpm@10.33.0 --activate
+USER root
+ENV HOME=/home/node
 WORKDIR /app
+ENTRYPOINT ["sh", "docker/entrypoint.sh"]
 CMD ["sh", "docker/start.sh"]

@@ -102,7 +102,17 @@ The assistant runs a coding agent in this project's folder, Claude Code or Codex
 
 The window stores the login under `~/.config`. With Docker, that folder is in the `home` volume, so the login survives a restart. To skip that step, for example in CI, put `CLAUDE_CODE_OAUTH_TOKEN` (from `claude setup-token`) in a `.env` file next to `compose.yaml`. It overrides the stored login.
 
-The `.antelope` folder, where the build writes its state, is in the `antelope` volume and not in the bind-mounted project, so `docker compose up` works for any host user id. Run `docker compose down -v` to reset it.
+The `.antelope` folder, where the build writes its state and the DMS keeps uploaded files under `file-storage`, is in the `antelope` volume and not in the project folder.
+
+With Docker Engine on Linux, the container runs as the user who owns the project folder, whatever its user id. The files it writes into the project, such as `dist`, `antelope-lock`, `.mcp.json`, `.codex` and the pages under `modules/`, belong to you.
+
+`docker compose down -v` deletes every volume of the stack, not only `antelope`:
+
+- `antelope`: the build state and the uploaded files.
+- `node_modules`: the installed packages. The next start installs them again.
+- `home`: the stored Claude or Codex login and the pnpm store.
+- `mongo`: the DMS's own data, its accounts, roles and settings.
+- `sample-db`, `sample-mongodb`, `sample-rethinkdb`, `sample-mysql`, `sample-mariadb`: the sample databases. The next start seeds them again.
 
 The first start in development also writes `.mcp.json` and `.codex/config.toml`, so Claude Code and Codex sessions you open in the project reach the same DMS tools. Commit both files. They hold only a relative path to a launcher under `node_modules`, with no machine path and no secret. [MCP server](https://dms.antelopejs.com/docs/ai-and-claude-code/mcp-server) explains them.
 
