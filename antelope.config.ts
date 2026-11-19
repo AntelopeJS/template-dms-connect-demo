@@ -20,7 +20,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms",
-        version: ">=0.21.0 <0.22.0",
+        version: ">=0.21.3 <0.22.0",
       },
       config: {
         apiBaseUrl: "${@api.API_PUBLIC_BASE_URL}",
@@ -43,7 +43,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms-assistant",
-        version: ">=0.2.6 <0.3.0",
+        version: ">=0.2.9 <0.3.0",
       },
       config: {
         backendUrl: "${@api.API_LOCAL_BASE_URL}",
@@ -54,7 +54,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/mongodb",
-        version: "~1.8.6",
+        version: "~1.8.11",
       },
       config: {
         url: "mongodb://localhost:27017",
@@ -65,7 +65,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/auth-jwt",
-        version: "~1.1.2",
+        version: "~1.1.3",
       },
       config: {
         secret: "dev",
@@ -75,7 +75,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/api",
-        version: "~1.7.5",
+        version: "~1.7.8",
       },
       config: {
         servers: [{ protocol: "http", port: 5010 }],
