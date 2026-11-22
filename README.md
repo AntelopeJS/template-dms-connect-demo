@@ -162,12 +162,13 @@ The sample database still runs in Docker. Only the DMS runs on your machine. You
 - Node.js 24 is the version in `.nvmrc`.
 - pnpm 10.33.0 is the version that `packageManager` in `package.json` pins. Node.js 24 includes corepack, and `corepack enable` makes the `pnpm` command use that version.
 
-Create the project. The command installs its packages:
+Create the project. The command skips the dependency install, so run `pnpm install` yourself:
 
 ```bash
 corepack enable
 npx @antelopejs/core project init my-demo --template dms-connect-demo
 cd my-demo
+pnpm install
 ```
 
 Start the MongoDB of the DMS and the PostgreSQL sample. `compose.host.yaml` publishes their ports on `127.0.0.1`, which the default stack does not:
