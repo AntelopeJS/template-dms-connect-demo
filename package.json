@@ -18,6 +18,7 @@
     "test": "pnpm run build && node --test \"dist/**/*.test.js\"",
     "size": "antelopejs-check-size",
     "checks": "antelopejs-checks",
+    "check:codex-pin": "node scripts/check-codex-pin.mjs",
     "sync": "antelopejs-sync --profile template",
     "sync:check": "antelopejs-sync --check --profile template"
   },
@@ -34,7 +35,7 @@
     "@antelopejs/mysql": ">=0.2.8 <0.3.0",
     "@antelopejs/postgres": ">=0.4.4 <0.5.0",
     "@antelopejs/rethinkdb": "~1.10.7",
-    "@openai/codex": "0.170.0"
+    "@openai/codex": "0.166.0"
   },
   "devDependencies": {
     "@antelopejs/core": "~1.24.7",
