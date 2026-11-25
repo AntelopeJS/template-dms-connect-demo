@@ -27,8 +27,8 @@ importers:
         specifier: '>=0.5.4 <0.6.0'
         version: 0.5.4(@antelopejs/interface-api@0.3.4(@antelopejs/interface-core@0.5.2))(@antelopejs/interface-core@0.5.2)(@antelopejs/interface-database@0.4.3(@antelopejs/interface-core@0.5.2))
       '@antelopejs/interface-dms':
-        specifier: '>=0.16.0 <0.17.0'
-        version: 0.16.0(f1e530776c304d6edaf84243dfcffd42)
+        specifier: ^0.17.0
+        version: 0.17.0(f1e530776c304d6edaf84243dfcffd42)
       '@antelopejs/interface-file-storage':
         specifier: '>=0.1.9 <0.2.0'
         version: 0.1.9(@antelopejs/interface-core@0.5.2)
@@ -52,11 +52,11 @@ importers:
         specifier: ~1.24.7
         version: 1.24.7
       '@antelopejs/dms-frontend':
-        specifier: '>=0.11.9 <0.12.0'
+        specifier: ^0.11.9
         version: 0.11.9(@antelopejs/core@1.24.7)
       '@antelopejs/tooling-configs':
-        specifier: '>=0.10.0 <0.11.0'
-        version: 0.10.0(knip@6.46.1)(oxfmt@0.79.0)(oxlint@1.94.0(oxlint-tsgolint@7.0.2007))
+        specifier: ^0.10.3
+        version: 0.10.3(knip@6.46.1)(oxfmt@0.79.0)(oxlint@1.94.0(oxlint-tsgolint@7.0.2007))
       '@types/node':
         specifier: ^24.0.0
         version: 24.19.2
@@ -145,15 +145,15 @@ packages:
     peerDependencies:
       '@antelopejs/interface-core': '>=0.5.1 <0.6.0'
 
-  '@antelopejs/interface-dms@0.16.0':
-    resolution: {integrity: sha512-To714iR4QnizOm4IsvZ/6aDSEmHQZuGO2/oJBzFAB3GE5mj1iTXlTF9B9JEJ20fTs/3gLNAbocVQFPM889L0Lg==}
+  '@antelopejs/interface-dms@0.17.0':
+    resolution: {integrity: sha512-cv+OKwJk7W2HFME80ln245Ji1XjcKTY/LpAHI37W790nUk07rPwu1qMei3yVMT1Kt4XjdD8xlfOgjWA6J24K/g==}
     peerDependencies:
-      '@antelopejs/interface-api': '>=0.3.0 <0.4.0'
-      '@antelopejs/interface-api-util': '>=0.3.0 <0.4.0'
-      '@antelopejs/interface-core': '>=0.5.1 <0.6.0'
-      '@antelopejs/interface-data-api': '>=0.8.0 <0.9.0'
-      '@antelopejs/interface-database': '>=0.4.0 <0.5.0'
-      '@antelopejs/interface-database-decorators': '>=0.5.2 <0.6.0'
+      '@antelopejs/interface-api': '>=0.3.4 <0.4.0'
+      '@antelopejs/interface-api-util': '>=0.3.3 <0.4.0'
+      '@antelopejs/interface-core': '>=0.5.2 <0.6.0'
+      '@antelopejs/interface-data-api': '>=0.8.2 <0.9.0'
+      '@antelopejs/interface-database': '>=0.4.3 <0.5.0'
+      '@antelopejs/interface-database-decorators': '>=0.5.4 <0.6.0'
       '@antelopejs/interface-file-storage': '>=0.1.4 <0.2.0'
 
   '@antelopejs/interface-file-storage@0.1.9':
@@ -183,8 +183,8 @@ packages:
   '@antelopejs/rethinkdb@1.10.7':
     resolution: {integrity: sha512-FhjIxeGQptbTX5lDjA6CoWJZkHNv/Mja9ZydTI6FvopGHbxdAKXhTGfliaLSSHLDY0Yy5JQokhDaDkZHScHc3A==}
 
-  '@antelopejs/tooling-configs@0.10.0':
-    resolution: {integrity: sha512-5UwQirzbFvd6Elzab7B8sssS2zVp5m2zIc0sAr7hpAMvHq7Cy0JIqY0XEZlwFJ3NwJZez5fBPbTU/6/lYJt+0Q==}
+  '@antelopejs/tooling-configs@0.10.3':
+    resolution: {integrity: sha512-ZXbwQLP9shPhi0OcljbrJBkSRW1qB4KOlB1p9eVNv6KxsephCcdQVpzb05m1T4ktHQWMBEfSeqKxi8cwtknHlw==}
     engines: {node: '>=22.18.0'}
     hasBin: true
     peerDependencies:
@@ -1630,6 +1630,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.8.6:
+    resolution: {integrity: sha512-9lpSSU4Mly3mrtruwLs1eLK6+gzbzqeBFwRNjIjE+9LuDpWdYctrQlQ3ej1Ilgi7gknpsTRnPoLP8DpCHqHIJw==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   serialize-javascript@7.1.4:
     resolution: {integrity: sha512-FqlEuoTq/zRmA4Lg6aOqyH3lCHbUtCB0bmHCeFniX2GBdDqMJM3FwdvEhlE5Pim1dlt2FfBdVPmUNNiGhhKqpw==}
     engines: {node: '>=20.0.0'}
@@ -1904,7 +1909,7 @@ snapshots:
     dependencies:
       '@antelopejs/interface-core': 0.5.2
 
-  '@antelopejs/interface-dms@0.16.0(f1e530776c304d6edaf84243dfcffd42)':
+  '@antelopejs/interface-dms@0.17.0(f1e530776c304d6edaf84243dfcffd42)':
     dependencies:
       '@antelopejs/interface-api': 0.3.4(@antelopejs/interface-core@0.5.2)
       '@antelopejs/interface-api-util': 0.3.3(@antelopejs/interface-api@0.3.4(@antelopejs/interface-core@0.5.2))(@antelopejs/interface-core@0.5.2)
@@ -1991,12 +1996,12 @@ snapshots:
     optionalDependencies:
       '@antelopejs/interface-rethinkdb': 0.1.2(@antelopejs/interface-core@0.5.2)
 
-  '@antelopejs/tooling-configs@0.10.0(knip@6.46.1)(oxfmt@0.79.0)(oxlint@1.94.0(oxlint-tsgolint@7.0.2007))':
+  '@antelopejs/tooling-configs@0.10.3(knip@6.46.1)(oxfmt@0.79.0)(oxlint@1.94.0(oxlint-tsgolint@7.0.2007))':
     dependencies:
       '@oxlint/plugins': 1.94.0
       dts-bundle-generator: 9.5.1
       minimatch: 10.2.6
-      semver: 7.8.5
+      semver: 7.8.6
       typescript: 6.0.3
       yaml: 2.9.1
     optionalDependencies:
@@ -3169,6 +3174,8 @@ snapshots:
   safer-buffer@2.1.2: {}
 
   semver@7.8.5: {}
+
+  semver@7.8.6: {}
 
   serialize-javascript@7.1.4: {}
 

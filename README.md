@@ -171,6 +171,13 @@ cd my-demo
 pnpm install
 ```
 
+`project init` leaves a git repository with no commit. Make a first commit now, so that [Start over](#start-over) can restore `antelope.config.ts`:
+
+```bash
+git add -A
+git commit -m "chore: initial commit"
+```
+
 Start the MongoDB of the DMS and the PostgreSQL sample. `compose.host.yaml` publishes their ports on `127.0.0.1`, which the default stack does not:
 
 ```bash
@@ -197,7 +204,14 @@ Open [http://localhost:3001](http://localhost:3001) when the log prints `Local: 
 postgres://dms_reader:dms_reader@localhost:5432/shop
 ```
 
-To use another sample, add its profile and service to the `up` command, for example `docker compose -f compose.yaml -f compose.host.yaml --profile mongodb up -d --wait mongo sample-mongodb seed-mongodb`. Its connection string on your machine is:
+To use another sample, start its database with its profile, then run its one-shot seed, for example:
+
+```bash
+docker compose -f compose.yaml -f compose.host.yaml --profile mongodb up -d --wait sample-mongodb
+docker compose -f compose.yaml -f compose.host.yaml --profile mongodb run --rm seed-mongodb
+```
+
+Its connection string on your machine is:
 
 | Sample    | Connection string                                                         | Port variable           |
 | --------- | ------------------------------------------------------------------------- | ----------------------- |
