@@ -25,8 +25,12 @@ You need git, Node.js 24 and Docker with Compose v2.
 ```bash
 npx @antelopejs/core project init my-demo --template dms-connect-demo
 cd my-demo
+git add -A
+git commit -m "chore: initial commit"
 docker compose up
 ```
+
+`project init` leaves a git repository with no commit. The first commit lets [Start over](#start-over) restore `antelope.config.ts`.
 
 Then [create the administrator and connect a sample database](#connect-a-sample-database).
 
@@ -171,12 +175,7 @@ cd my-demo
 pnpm install
 ```
 
-`project init` leaves a git repository with no commit. Make a first commit now, so that [Start over](#start-over) can restore `antelope.config.ts`:
-
-```bash
-git add -A
-git commit -m "chore: initial commit"
-```
+Make the first commit of the [Quick start](#quick-start) now, so that [Start over](#start-over) can restore `antelope.config.ts`.
 
 Start the MongoDB of the DMS and the PostgreSQL sample. `compose.host.yaml` publishes their ports on `127.0.0.1`, which the default stack does not:
 
