@@ -54,7 +54,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/mongodb",
-        version: "1.8.13",
+        version: "1.8.15",
       },
       config: {
         url: "mongodb://localhost:27017",
@@ -75,7 +75,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/api",
-        version: "1.7.8",
+        version: "1.7.9",
       },
       config: {
         servers: [{ protocol: "http", port: 5010 }],
@@ -85,7 +85,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/file-storage-local",
-        version: "0.2.2",
+        version: "0.2.3",
       },
       config: {
         storagePath: ".antelope/file-storage",
@@ -97,7 +97,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/nodemailer",
-        version: "0.0.14",
+        version: "0.0.15",
       },
       config: {
         ethereal: true,
