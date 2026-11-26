@@ -20,7 +20,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms",
-        version: "0.23.0",
+        version: "0.24.1",
       },
       config: {
         apiBaseUrl: "${@api.API_PUBLIC_BASE_URL}",
@@ -43,7 +43,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms-assistant",
-        version: "0.3.2",
+        version: "0.3.4",
       },
       config: {
         backendUrl: "${@api.API_LOCAL_BASE_URL}",
