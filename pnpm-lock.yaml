@@ -52,11 +52,11 @@ importers:
         specifier: ~1.24.7
         version: 1.24.7
       '@antelopejs/dms-frontend':
-        specifier: ^0.11.9
-        version: 0.11.9(@antelopejs/core@1.24.7)
+        specifier: ^0.11.10
+        version: 0.11.10(@antelopejs/core@1.24.7)
       '@antelopejs/tooling-configs':
-        specifier: ^0.10.3
-        version: 0.10.3(knip@6.46.1)(oxfmt@0.79.0)(oxlint@1.94.0(oxlint-tsgolint@7.0.2007))
+        specifier: ^0.10.4
+        version: 0.10.4(knip@6.46.1)(oxfmt@0.79.0)(oxlint@1.94.0(oxlint-tsgolint@7.0.2007))
       '@types/node':
         specifier: ^24.0.0
         version: 24.19.2
@@ -98,8 +98,8 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
-  '@antelopejs/dms-frontend@0.11.9':
-    resolution: {integrity: sha512-+PY0m+7MJ7wzTywHuVT23EDFUUvVeopXDdhdsRu8tVlhO6CFpDV6JHqzLfacRuno8juN0RNfL4nbD0UE9S1jcg==}
+  '@antelopejs/dms-frontend@0.11.10':
+    resolution: {integrity: sha512-d8yGQTruX4IyXmOigLh8Jqe1brm86QvlrvCMFnsEvqV4mJqjtXjepVraUtHfh30GVe27naorf9tEojlr35v+TA==}
     engines: {node: '>=20.19.0'}
     hasBin: true
     peerDependencies:
@@ -183,8 +183,8 @@ packages:
   '@antelopejs/rethinkdb@1.10.7':
     resolution: {integrity: sha512-FhjIxeGQptbTX5lDjA6CoWJZkHNv/Mja9ZydTI6FvopGHbxdAKXhTGfliaLSSHLDY0Yy5JQokhDaDkZHScHc3A==}
 
-  '@antelopejs/tooling-configs@0.10.3':
-    resolution: {integrity: sha512-ZXbwQLP9shPhi0OcljbrJBkSRW1qB4KOlB1p9eVNv6KxsephCcdQVpzb05m1T4ktHQWMBEfSeqKxi8cwtknHlw==}
+  '@antelopejs/tooling-configs@0.10.4':
+    resolution: {integrity: sha512-AXcdYORsQk67E87lmP9z4VESWnwtE/ZkJ5On+9epFyh01WiLjuAn590YltUmTtGkQV2sCKab/KIk09T8CNC3SA==}
     engines: {node: '>=22.18.0'}
     hasBin: true
     peerDependencies:
@@ -1856,14 +1856,14 @@ snapshots:
       typescript: 5.9.3
       yaml: 2.9.1
 
-  '@antelopejs/dms-frontend@0.11.9(@antelopejs/core@1.24.7)':
+  '@antelopejs/dms-frontend@0.11.10(@antelopejs/core@1.24.7)':
     dependencies:
       '@antelopejs/core': 1.24.7
       '@intlify/message-compiler': 11.4.16
       chokidar: 4.0.3
       commander: 13.1.0
       ignore: 7.0.14
-      semver: 7.8.5
+      semver: 7.8.6
       yaml: 2.9.1
     optionalDependencies:
       '@oxc-parser/binding-darwin-arm64': 0.95.0
@@ -1996,7 +1996,7 @@ snapshots:
     optionalDependencies:
       '@antelopejs/interface-rethinkdb': 0.1.2(@antelopejs/interface-core@0.5.2)
 
-  '@antelopejs/tooling-configs@0.10.3(knip@6.46.1)(oxfmt@0.79.0)(oxlint@1.94.0(oxlint-tsgolint@7.0.2007))':
+  '@antelopejs/tooling-configs@0.10.4(knip@6.46.1)(oxfmt@0.79.0)(oxlint@1.94.0(oxlint-tsgolint@7.0.2007))':
     dependencies:
       '@oxlint/plugins': 1.94.0
       dts-bundle-generator: 9.5.1

@@ -38,8 +38,8 @@
   },
   "devDependencies": {
     "@antelopejs/core": "~1.24.7",
-    "@antelopejs/dms-frontend": "^0.11.9",
-    "@antelopejs/tooling-configs": "^0.10.3",
+    "@antelopejs/dms-frontend": "^0.11.10",
+    "@antelopejs/tooling-configs": "^0.10.4",
     "@types/node": "^24.0.0",
     "@types/pg": "^8.23.1",
     "@types/rethinkdb": "^2.3.21",
