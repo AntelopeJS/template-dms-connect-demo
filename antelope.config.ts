@@ -20,7 +20,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms",
-        version: "0.24.1",
+        version: "0.24.3",
       },
       config: {
         apiBaseUrl: "${@api.API_PUBLIC_BASE_URL}",
@@ -43,7 +43,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/dms-assistant",
-        version: "0.3.4",
+        version: "0.3.5",
       },
       config: {
         backendUrl: "${@api.API_LOCAL_BASE_URL}",
@@ -75,7 +75,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/api",
-        version: "1.7.9",
+        version: "1.7.10",
       },
       config: {
         servers: [{ protocol: "http", port: 5010 }],
