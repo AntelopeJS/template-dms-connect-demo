@@ -40,7 +40,7 @@
     "@antelopejs/core": "~1.24.9",
     "@antelopejs/dms-frontend": "^0.11.12",
     "@antelopejs/tooling-configs": "^0.10.12",
-    "@types/node": "^24.0.0",
+    "@types/node": "^24.19.2",
     "@types/pg": "^8.23.1",
     "@types/rethinkdb": "^2.3.21",
     "knip": "^6.46.1",
@@ -52,7 +52,7 @@
     "rimraf": "^6.1.4",
     "typescript": "^6.0.3"
   },
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@10.34.9",
   "antelopeJs": {
     "baseUrl": "dist",
     "paths": {
