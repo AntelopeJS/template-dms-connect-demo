@@ -55,8 +55,8 @@ importers:
         specifier: ^0.11.12
         version: 0.11.12(@antelopejs/core@1.24.9)
       '@antelopejs/tooling-configs':
-        specifier: ^0.10.8
-        version: 0.10.8(knip@6.46.1)(oxfmt@0.79.0)(oxlint@1.94.0(oxlint-tsgolint@7.0.2007))
+        specifier: ^0.10.12
+        version: 0.10.12(knip@6.46.1)(oxfmt@0.79.0)(oxlint@1.94.0(oxlint-tsgolint@7.0.2007))
       '@types/node':
         specifier: ^24.0.0
         version: 24.19.2
@@ -183,8 +183,8 @@ packages:
   '@antelopejs/rethinkdb@1.10.8':
     resolution: {integrity: sha512-OM6lnbtxkMyIwFT//GCG0HGW9Lkp5J5Pub2Kx8tKs6WW4JtGHNR9nFxrB+5wmpwNuYwCFAmZaLth1sCVT+O4uQ==}
 
-  '@antelopejs/tooling-configs@0.10.8':
-    resolution: {integrity: sha512-kLmjNMpdWJKUC3P4H6Kfbyzk4qCYyq0MF7ox/6NpH3DBqYXwPQerQh/aX8JER9nxIyp7LJayox2dgxamEn458A==}
+  '@antelopejs/tooling-configs@0.10.12':
+    resolution: {integrity: sha512-2Yjx8JxWr4Opz1hA8363Zctf4SUmtG3DFmm/UaPe1447fWzmTX8FgTDRg1qoEIQ94g/U6rte6lj9cIdNEE3Kmg==}
     engines: {node: '>=22.18.0'}
     hasBin: true
     peerDependencies:
@@ -1992,7 +1992,7 @@ snapshots:
     optionalDependencies:
       '@antelopejs/interface-rethinkdb': 0.1.2(@antelopejs/interface-core@0.5.4)
 
-  '@antelopejs/tooling-configs@0.10.8(knip@6.46.1)(oxfmt@0.79.0)(oxlint@1.94.0(oxlint-tsgolint@7.0.2007))':
+  '@antelopejs/tooling-configs@0.10.12(knip@6.46.1)(oxfmt@0.79.0)(oxlint@1.94.0(oxlint-tsgolint@7.0.2007))':
     dependencies:
       '@oxlint/plugins': 1.95.0
       dts-bundle-generator: 9.5.1
