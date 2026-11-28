@@ -28,7 +28,7 @@
     "@antelopejs/interface-data-api": ">=0.8.3 <0.9.0",
     "@antelopejs/interface-database": ">=0.4.5 <0.5.0",
     "@antelopejs/interface-database-decorators": ">=0.5.4 <0.6.0",
-    "@antelopejs/interface-dms": "^0.17.2",
+    "@antelopejs/interface-dms": "^0.17.3",
     "@antelopejs/interface-file-storage": ">=0.1.10 <0.2.0",
     "@antelopejs/mongodb": ">=1.8.15 <1.9.0",
     "@antelopejs/mysql": ">=0.2.9 <0.3.0",
@@ -39,7 +39,7 @@
   "devDependencies": {
     "@antelopejs/core": "~1.24.9",
     "@antelopejs/dms-frontend": "^0.11.12",
-    "@antelopejs/tooling-configs": "^0.10.12",
+    "@antelopejs/tooling-configs": "^0.10.14",
     "@types/node": "^24.19.2",
     "@types/pg": "^8.23.1",
     "@types/rethinkdb": "^2.3.21",
