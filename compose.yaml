@@ -169,7 +169,7 @@ services:
 
   sample-mariadb:
     profiles: [mariadb]
-    image: mariadb:11.8
+    image: mariadb:13.0
     attach: false
     environment:
       MARIADB_ROOT_PASSWORD: root
